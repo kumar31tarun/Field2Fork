@@ -29,7 +29,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true, exclude = {"orderItems","user"})
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @Table(name = "orders")
 public class Order {
 	

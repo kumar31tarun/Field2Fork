@@ -24,7 +24,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString(callSuper = true, exclude = {"product","user"})
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode
 @Table(name = "reviews")
 public class Reviews {
 	
