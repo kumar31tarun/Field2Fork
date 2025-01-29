@@ -8,6 +8,9 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
@@ -30,6 +33,11 @@ import lombok.ToString;
 @Table(name = "products")
 public class Product extends BaseEntity {
 
+	@Id
+	@Column(name = "product_id") 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;

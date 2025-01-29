@@ -2,6 +2,9 @@ package com.field2fork.pojos;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
@@ -23,6 +26,11 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "product_images")
 public class ProductImage extends BaseEntity {
+	
+	@Id
+	@Column(name = "image_id") 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
