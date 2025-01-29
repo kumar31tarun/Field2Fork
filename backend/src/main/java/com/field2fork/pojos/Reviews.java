@@ -1,5 +1,7 @@
 package com.field2fork.pojos;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,12 +26,15 @@ import lombok.ToString;
 @ToString(callSuper = true, exclude = {"product","user"})
 @EqualsAndHashCode(callSuper = true)
 @Table(name = "reviews")
-public class Reviews extends BaseEntity {
+public class Reviews {
 	
 	@Id
 	@Column(name = "review_id") 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp review_date;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)

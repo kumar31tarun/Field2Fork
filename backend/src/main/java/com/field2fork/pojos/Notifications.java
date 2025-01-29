@@ -1,5 +1,7 @@
 package com.field2fork.pojos;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -26,12 +28,15 @@ import lombok.ToString;
 @ToString(callSuper = true, exclude = {"user"})
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "notifications")
-public class Notifications extends BaseEntity {
+public class Notifications {
 	
 	@Id
 	@Column(name = "notification_id") 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

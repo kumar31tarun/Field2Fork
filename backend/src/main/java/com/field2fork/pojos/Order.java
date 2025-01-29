@@ -17,22 +17,29 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString(callSuper = true, exclude = {"orderItems","user"})
+@EqualsAndHashCode(callSuper = true)
 @Table(name = "orders")
-public class Order extends BaseEntity {
+public class Order {
 	
 	@Id
 	@Column(name = "order_id") 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp order_date;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

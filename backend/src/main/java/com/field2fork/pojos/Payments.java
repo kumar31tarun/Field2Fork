@@ -1,6 +1,7 @@
 package com.field2fork.pojos;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -27,12 +28,15 @@ import lombok.ToString;
 @ToString(callSuper = true, exclude = {"order","amount"})
 @EqualsAndHashCode(callSuper = false)
 @Table(name = "payments")
-public class Payments extends BaseEntity {
+public class Payments {
 	
 	@Id
 	@Column(name = "payment_id") 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+	
+	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Timestamp payment_date;
 
     @ManyToOne
     @JoinColumn(name = "order_id", nullable = false)

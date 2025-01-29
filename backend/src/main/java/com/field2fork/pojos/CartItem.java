@@ -20,21 +20,21 @@ import lombok.ToString;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-@ToString(callSuper = true, exclude = {"product","order"})
-@EqualsAndHashCode(callSuper = true)
-@Table(name = "order_items")
-public class OrderItem extends BaseEntity {
+@NoArgsConstructor
+@ToString(callSuper = true, exclude = {"cart","product"})
+@EqualsAndHashCode(callSuper = false)
+@Table(name = "cart_items")
+public class CartItem extends BaseEntity {
 	
 	@Id
-	@Column(name = "order_item_id") 
+	@Column(name = "cart_item_id") 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "order_id", nullable = false)
-    private Order order;
+    @JoinColumn(name = "cart_id", nullable = false)
+    private Cart cart;
 
     @ManyToOne
     @JoinColumn(name = "product_id", nullable = false)
@@ -47,3 +47,4 @@ public class OrderItem extends BaseEntity {
     private BigDecimal price;
 
 }
+
