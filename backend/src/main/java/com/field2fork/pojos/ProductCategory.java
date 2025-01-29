@@ -1,0 +1,20 @@
+package com.field2fork.pojos;
+
+public enum ProductCategory {
+    FRUITS,
+    VEGETABLES,
+    GRAINS_PULSES,
+    DAIRY_PRODUCTS,
+    MEAT_POULTRY,
+    SEAFOOD,
+    EGGS,
+    HERBS_SPICES,
+    HONEY_SWEETENERS,
+    NUTS_SEEDS,
+    BEVERAGES,
+    ORGANIC_SPECIALTY_FOODS,
+    BAKERY_HOMEMADE_GOODS,
+    OILS_CONDIMENTS,
+    HANDMADE_ARTISAN_PRODUCTS;
+}
+

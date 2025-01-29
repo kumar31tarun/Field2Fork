@@ -57,6 +57,12 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20, columnDefinition = "VARCHAR(20) DEFAULT 'In Stock'")
     private ProductStatus status;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 30)
+    private ProductCategory category; 
+
+    
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images;
