@@ -15,6 +15,7 @@ import lombok.ToString;
 @Setter
 @ToString(callSuper = true)
 public class ProductRespDTO {
+	private Long id;
     private String name;	
     private String description;   
     private BigDecimal pricePerUnit;
@@ -23,9 +24,10 @@ public class ProductRespDTO {
     private ProductCategory category; 
     
     
-	public ProductRespDTO(String name, String description, BigDecimal pricePerUnit, Integer stockQuantity,
+	public ProductRespDTO(Long id,String name, String description, BigDecimal pricePerUnit, Integer stockQuantity,
 			ProductStatus status, ProductCategory category) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.pricePerUnit = pricePerUnit;
