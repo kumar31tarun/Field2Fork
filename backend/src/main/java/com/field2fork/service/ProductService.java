@@ -20,4 +20,8 @@ public interface ProductService {
 
 	List<ProductCategory> getAllCategories();
 
+	List<ProductRespDTO> getProductById(Long product_id);
+
+	List<ProductRespDTO> getProductsByCategory(String category);
+
 }

@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
 //import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -14,10 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.field2fork.service.ProductService;
-import com.field2fork.pojos.Product;
 import com.field2fork.pojos.ProductCategory;
 import com.field2fork.dtos.ProductRespDTO;
 import com.field2fork.dtos.ApiResponse;
@@ -115,6 +114,7 @@ public class ProductController {
 	 */
 	@GetMapping("/categories")
     public ResponseEntity<?> getAllCategories() {
+		System.out.println("in get all categories");
         List<ProductCategory> categories = prodService.getAllCategories();
         if (categories.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -122,5 +122,39 @@ public class ProductController {
             return ResponseEntity.ok(categories);
         }
     }
+	
+	/*
+	 * Desc - Get product by id
+	 * URL - http://host:port/products/{id}
+	 * Method - GET
+	 */
+	@GetMapping("/{product_id}")
+	public ResponseEntity<?> getProductById(@PathVariable Long product_id)
+	{
+		System.out.println("in get product by id");
+		List<ProductRespDTO> product = prodService.getProductById(product_id);
+		if (product.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} else {
+			return ResponseEntity.ok(product);
+		}
+		
+	}
+	
+	
+	/*
+	 * Desc - Get products by category
+	 * URL - http://host:port/products/category
+	 * Method - GET
+	 */
+	@GetMapping("/category")
+	public ResponseEntity<?> getProductsByCategory(@RequestParam("category") String category) {
+	    List<ProductRespDTO> products = prodService.getProductsByCategory(category);
+	    if (products.isEmpty()) {
+	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	    } else {
+	        return ResponseEntity.ok(products);
+	    }
+	}
 
 }

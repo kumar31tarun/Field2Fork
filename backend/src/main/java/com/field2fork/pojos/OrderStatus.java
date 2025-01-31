@@ -1,5 +1,5 @@
 package com.field2fork.pojos;
 
-enum OrderStatus {
+public enum OrderStatus {
     PENDING, SHIPPED, DELIVERED, CANCELLED
 }

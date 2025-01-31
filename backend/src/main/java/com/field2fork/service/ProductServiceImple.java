@@ -6,10 +6,8 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.field2fork.custom_exception.ResourceNotFoundException;
 import com.field2fork.dao.ProductDao;
@@ -107,6 +105,32 @@ public class ProductServiceImple implements ProductService {
 	public List<ProductCategory> getAllCategories() {
 		return Arrays.asList(ProductCategory.values());
 		
+	}
+
+	@Override
+	public List<ProductRespDTO> getProductById(Long product_id) {
+		if(productDao.existsById(product_id)) {	
+		return productDao.findById(product_id).stream()
+				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
+				.collect(Collectors.toList());
+		}
+		return null;
+	}
+
+	@Override
+	public List<ProductRespDTO> getProductsByCategory(String category) {
+		try {
+			ProductCategory category_name = ProductCategory.valueOf(category.toUpperCase());
+			
+		return productDao.findByCategory(category_name)
+				.stream()
+				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
+				.collect(Collectors.toList());
+		}
+		catch(IllegalArgumentException e)
+		{
+			throw new ResourceNotFoundException("Invalid Category "+ category);
+		}
 	}
 
 
