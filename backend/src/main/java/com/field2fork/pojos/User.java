@@ -56,5 +56,9 @@ public class User extends BaseEntity {
     @Column(columnDefinition = "FLOAT DEFAULT 0")
     private Float rating;
     
+    public User(Long id) {
+        this.id = id;
+    }
+
 }
 
