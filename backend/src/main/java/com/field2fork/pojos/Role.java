@@ -1,5 +1,5 @@
 package com.field2fork.pojos;
 
-enum Role {
+ public enum Role {
     ADMIN, SELLER, BUYER
 }
