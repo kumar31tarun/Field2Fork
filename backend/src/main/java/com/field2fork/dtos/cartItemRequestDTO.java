@@ -24,6 +24,4 @@ public class cartItemRequestDTO {
 			this.quantity = quantity;
 			this.price = price;
 		}
-	    
-
 }
