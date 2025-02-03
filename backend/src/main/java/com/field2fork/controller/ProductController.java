@@ -117,7 +117,8 @@ public class ProductController {
 		System.out.println("in get all categories");
         List<ProductCategory> categories = prodService.getAllCategories();
         if (categories.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No categories");
         } else {
             return ResponseEntity.ok(categories);
         }
@@ -134,7 +135,8 @@ public class ProductController {
 		System.out.println("in get product by id");
 		List<ProductRespDTO> product = prodService.getProductById(product_id);
 		if (product.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No such product with given Id");
 		} else {
 			return ResponseEntity.ok(product);
 		}
@@ -151,7 +153,8 @@ public class ProductController {
 	public ResponseEntity<?> getProductsByCategory(@RequestParam("category") String category) {
 	    List<ProductRespDTO> products = prodService.getProductsByCategory(category);
 	    if (products.isEmpty()) {
-	        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	    	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No Products in mentioned category");
 	    } else {
 	        return ResponseEntity.ok(products);
 	    }
