@@ -52,6 +52,16 @@ public class Payments {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, length = 20)
     private PaymentMethod paymentMethod;
+    
+ // Razorpay integration fields
+    @Column(name = "razorpay_payment_id", length = 100)
+    private String razorpayPaymentId;
+    
+    @Column(name = "razorpay_order_id", length = 100)
+    private String razorpayOrderId;
+    
+    @Column(name = "razorpay_signature", length = 100)
+    private String razorpaySignature;
 
    
 }

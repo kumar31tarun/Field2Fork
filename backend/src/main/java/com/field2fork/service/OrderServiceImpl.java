@@ -86,6 +86,8 @@ public class OrderServiceImpl implements OrderService{
 	            .collect(Collectors.toList());
 	}
 
+	
+	//  This API is Additional for placing the one item order directly(Needs to be updated)
 	@Override
 	public ApiResponse placeOrder(OrderRequestDTO orderRequestDto) {
 		try {
@@ -144,27 +146,45 @@ public class OrderServiceImpl implements OrderService{
 	            return new ApiResponse("An unexpected error occurred");
 	        }
 	}
-
+	
 	@Override
 	public ApiResponse updateOrderStatus(Long orderId, String newStatus) {
-		try {
-            Optional<Order> optionalOrder = orderDao.findById(orderId);
-            if (optionalOrder.isPresent()) {
-                Order order = optionalOrder.get();
-                try {
-                OrderStatus status = OrderStatus.valueOf(newStatus.toUpperCase());
-                order.setOrderStatus(status); // Update the status
-                orderDao.save(order); // Save the updated order
-                return new ApiResponse("Order status updated successfully");
-                }catch (IllegalArgumentException e) {
-                    return new ApiResponse("Invalid order status");
-                } 
-                }else {
-                return new ApiResponse("Order not found");
-            }
-        } catch (Exception e) {
-            return new ApiResponse("An unexpected error occurred");
-        }
+	    try {
+	        if (newStatus == null || newStatus.trim().isEmpty()) {
+	            return new ApiResponse("Status cannot be null or empty");
+	        }
+
+	        // Normalize the input
+	        newStatus = newStatus.trim().replace("\"", "");
+
+	        Optional<Order> optionalOrder = orderDao.findById(orderId);
+	        if (optionalOrder.isPresent()) {
+	            Order order = optionalOrder.get();
+	            try {
+	                if (!isValidStatus(newStatus)) {
+	                    return new ApiResponse("Invalid order status: " + newStatus);
+	                }
+	                OrderStatus status = OrderStatus.valueOf(newStatus.toUpperCase());
+	                order.setOrderStatus(status); // Update the status
+	                orderDao.save(order); // Save the updated order
+	                return new ApiResponse("Order status updated successfully");
+	            } catch (IllegalArgumentException e) {
+	                return new ApiResponse("Invalid order status: " + newStatus);
+	            }
+	        } else {
+	            return new ApiResponse("Order not found");
+	        }
+	    } catch (Exception e) {
+	        return new ApiResponse("An unexpected error occurred");
+	    }
 	}
 
+	private boolean isValidStatus(String status) {
+	    for (OrderStatus orderStatus : OrderStatus.values()) {
+	        if (orderStatus.name().equalsIgnoreCase(status)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
 }

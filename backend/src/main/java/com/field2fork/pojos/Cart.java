@@ -43,8 +43,14 @@ public class Cart extends BaseEntity {
      @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
      private List<CartItem> cartItems;
 
+<<<<<<< HEAD
      public Cart(User user) {
     	    this.user = user;
     	    this.cartItems = new ArrayList<>();
     	}
+=======
+    
+
+
+>>>>>>> b1cef2a6d677fafacb2d90d8760efc026b7b3301
 }
