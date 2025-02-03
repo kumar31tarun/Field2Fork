@@ -59,6 +59,10 @@ public class User extends BaseEntity {
     public User(Long id) {
         this.id = id;
     }
+    
+    @Column(nullable = false)
+    private Integer totalReviews = 0;
+
 
 }
 
