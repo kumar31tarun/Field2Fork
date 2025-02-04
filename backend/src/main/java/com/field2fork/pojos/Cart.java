@@ -10,7 +10,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -43,14 +42,9 @@ public class Cart extends BaseEntity {
      @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
      private List<CartItem> cartItems;
 
-<<<<<<< HEAD
      public Cart(User user) {
     	    this.user = user;
     	    this.cartItems = new ArrayList<>();
     	}
-=======
-    
 
-
->>>>>>> b1cef2a6d677fafacb2d90d8760efc026b7b3301
 }
