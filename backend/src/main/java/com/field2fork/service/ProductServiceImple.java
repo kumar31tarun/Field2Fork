@@ -107,5 +107,31 @@ public class ProductServiceImple implements ProductService {
 		
 	}
 
+	@Override
+	public List<ProductRespDTO> getProductById(Long product_id) {
+		if(productDao.existsById(product_id)) {	
+		return productDao.findById(product_id).stream()
+				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
+				.collect(Collectors.toList());
+		}
+		return null;
+	}
+
+	@Override
+	public List<ProductRespDTO> getProductsByCategory(String category) {
+		try {
+			ProductCategory category_name = ProductCategory.valueOf(category.toUpperCase());
+			
+		return productDao.findByCategory(category_name)
+				.stream()
+				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
+				.collect(Collectors.toList());
+		}
+		catch(IllegalArgumentException e)
+		{
+			throw new ResourceNotFoundException("Invalid Category "+ category);
+		}
+	}
+
 
 }

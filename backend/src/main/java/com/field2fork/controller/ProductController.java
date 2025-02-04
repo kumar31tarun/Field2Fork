@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.field2fork.service.ProductService;
@@ -113,12 +114,50 @@ public class ProductController {
 	 */
 	@GetMapping("/categories")
     public ResponseEntity<?> getAllCategories() {
+		System.out.println("in get all categories");
         List<ProductCategory> categories = prodService.getAllCategories();
         if (categories.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No categories");
         } else {
             return ResponseEntity.ok(categories);
         }
     }
+	
+	/*
+	 * Desc - Get product by id
+	 * URL - http://host:port/products/{id}
+	 * Method - GET
+	 */
+	@GetMapping("/{product_id}")
+	public ResponseEntity<?> getProductById(@PathVariable Long product_id)
+	{
+		System.out.println("in get product by id");
+		List<ProductRespDTO> product = prodService.getProductById(product_id);
+		if (product.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No such product with given Id");
+		} else {
+			return ResponseEntity.ok(product);
+		}
+		
+	}
+	
+	
+	/*
+	 * Desc - Get products by category
+	 * URL - http://host:port/products/category
+	 * Method - GET
+	 */
+	@GetMapping("/category")
+	public ResponseEntity<?> getProductsByCategory(@RequestParam("category") String category) {
+	    List<ProductRespDTO> products = prodService.getProductsByCategory(category);
+	    if (products.isEmpty()) {
+	    	return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                .body("No Products in mentioned category");
+	    } else {
+	        return ResponseEntity.ok(products);
+	    }
+	}
 
 }

@@ -2,6 +2,8 @@ package com.field2fork.pojos;
 
 import java.sql.Timestamp;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,6 +36,7 @@ public class Reviews {
     private Long id;
 	
 	@Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+	@CreationTimestamp
     private Timestamp review_date;
 
     @ManyToOne

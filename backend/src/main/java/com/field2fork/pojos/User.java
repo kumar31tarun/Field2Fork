@@ -42,7 +42,7 @@ public class User extends BaseEntity {
     private Role role;
 
     @Column(nullable = false, columnDefinition = "BOOLEAN DEFAULT TRUE")
-    private Boolean activeStatus;
+    private Boolean activeStatus=true;
 
     @Column(length = 100)
     private String location;
@@ -59,6 +59,10 @@ public class User extends BaseEntity {
     public User(Long id) {
         this.id = id;
     }
+    
+    @Column(nullable = false)
+    private Integer totalReviews = 0;
+
 
 }
 
