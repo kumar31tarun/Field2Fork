@@ -1,11 +1,13 @@
 import Header from "../components/Header";
 import Navbar from "../components/Navbar";
-import OfferCard from "../components/OfferCard";
+//import OfferCard from "../components/OfferCard";
 import WelcomeCard from "../components/WelcomeCard";
-import RenderOfferCard from "../components/RenderOfferCard";
+import BannerCard from "../components/BannerCard";
+//import RenderOfferCard from "../components/RenderOfferCard";
 import ShopByCategory from "../components/ShopByCategory";
 import Footer from "../components/Footer";
-import FruitsAndVegetable from "../components/FruitsAndVegetables";
+// import FruitsAndVegetable from "../components/FruitsAndVegetables";
+
 
 const Home = () => {
   return (
@@ -13,10 +15,15 @@ const Home = () => {
       <Header />
       <Navbar />
       <WelcomeCard />
-      <RenderOfferCard />
+      <br/>
+      <BannerCard/>
+      <br/>
+      {/* <RenderOfferCard /> */}
       <ShopByCategory />
-      <FruitsAndVegetable />
+      {/* <FruitsAndVegetable /> */}
       <br />
+      <hr className="border-t border-gray-300 my-6" />
+
       <Footer />
     </div>
   );
