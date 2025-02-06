@@ -1,18 +1,24 @@
-import React from "react";
-//import bgImage from "../assets/Homepage1.jpg"; // Ensure the correct path
+// import React from "react";
+// import bgImage from "../assets/Contact.jpg"; 
 
 const ContactUs = () => {
   return (
-    <div className="flex flex-col items-center justify-center w-full">
+    <div className="flex flex-col w-full">
       <div
-        className="relative flex items-center justify-center h-[50vh] bg-cover bg-center w-full"
-        style={{ backgroundImage: `url('/src/assets/Contact.jpg')` }}
+        className="relative flex items-start justify-start h-[50vh] bg-cover bg-center w-full"
+        style={{ 
+          backgroundImage: `url(/Contactusimg/Contact.jpg)`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "100vw",
+          height: "100vh",
+         }}
       >
 
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
-
+       
         {/* Text Content on Image */}
-        <div className="relative z-10 text-white text-center px-6 max-w-2xl">
+        <div className="relative z-10 text-white px-6 max-w-2xl text-left mt-25">
           <h1 className="text-4xl font-bold mb-4">Do you need support?</h1>
           <h2 className="text-4xl font-bold mb-4">Our team is ready to help.</h2>
           <p className="text-lg text-gray-200">
@@ -21,7 +27,7 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Gray Background Container with Text & Form */}
+      
       <div className="w-full bg-gray-100 py-16 flex justify-center">
         <div className="max-w-7xl w-full flex bg-white p-10 rounded-lg shadow-md">
           
@@ -36,7 +42,7 @@ const ContactUs = () => {
 
           {/* Right Side: Contact Form */}
           <div className="w-1/2 bg-white p-8 rounded-lg shadow-md">
-            <h2 className="text-2xl font-semibold mb-4 text-green-600">Get in Touch</h2>
+            <h2 className="text-2xl font-semibold mb-4 text-blue-600">Get in Touch</h2>
             <form>
               <div className="mb-4">
                 <label htmlFor="fullName" className="block text-gray-700 font-medium mb-2">

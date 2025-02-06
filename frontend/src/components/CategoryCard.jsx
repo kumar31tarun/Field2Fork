@@ -2,16 +2,16 @@ import React from 'react';
 
 const CategoryCard = () => {
   const categories = [
-    { name: 'Vegetables', image: 'src/assets/category/freshveges.jpg' },
-    { name: 'Fruits', image: 'src/assets/category/fruits1.jpg' },
-    { name: 'Nuts & Seeds', image: 'src/assets/category/Nuts-seeds.jpg' },
-    { name: 'Dairy Products', image: 'src/assets/category/dairyproducts.jpg' },
-    { name: 'Grains', image: 'src/assets/category/Grains.jpg' },
-    { name: 'Eggs', image: 'src/assets/category/Eggs.jpg' },
-    { name: 'Herbs & Spices', image: 'src/assets/category/herbs-spices.jpg' },
-    { name: 'Honey & Sweetners', image: 'src/assets/category/honey-other.jpg' },
-    { name: 'Oils Condiments', image: 'src/assets/category/oils.jpg' },
-    { name: 'Seafood', image: 'src/assets/category/seafood.jpg' },
+    { name: 'Vegetables', image: '/category/freshveges.jpg' },
+    { name: 'Fruits', image: '/category/fruits1.jpg' },
+    { name: 'Nuts & Seeds', image: '/category/Nuts-seeds.jpg' },
+    { name: 'Dairy Products', image: '/category/dairyproducts.jpg' },
+    { name: 'Grains', image: '/category/Grains.jpg' },
+    { name: 'Eggs', image: '/category/Eggs.jpg' },
+    { name: 'Herbs & Spices', image: '/category/herbs-spices.jpg' },
+    { name: 'Honey & Sweetners', image: '/category/honey-other.jpg' },
+    { name: 'Oils Condiments', image: '/category/oils.jpg' },
+    { name: 'Seafood', image: '/category/seafood.jpg' },
   ];
 
   return (

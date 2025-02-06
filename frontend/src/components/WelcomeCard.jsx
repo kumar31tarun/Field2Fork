@@ -1,11 +1,11 @@
-import homepageImg from "../assets/homepage1.jpg"; 
+// import homepageImg from "../assets/homepage1.jpg"; 
 
 const WelcomeCard = () => {
   return (
     <div
       className="flex flex-col items-start justify-center h-screen bg-cover bg-center pl-16"
       style={{
-        backgroundImage: `url(${homepageImg})`,
+        backgroundImage: `url(/Homepage1.jpg)`,
         backgroundSize: "cover",    
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat", 

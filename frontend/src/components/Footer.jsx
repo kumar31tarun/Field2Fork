@@ -8,25 +8,25 @@ const Footer = () => {
   <section className="bg-white py-12">
     <div className="container px-8 sm:px-12 lg:px-20 flex flex-nowrap gap-10">
       {/* Feature 1 */}
-      <div className="w-1/4 text-center bg-green-500 p-6 rounded-xl shadow-2xl hover:shadow-green-700/50 transition-all duration-300">
+      <div className="w-1/4 text-center bg-green-400 p-6  hover:bg-green-500 rounded-xl shadow-2xl hover:shadow-green-800/50 transition-all duration-300">
         <h3 className="text-2xl font-bold text-white mb-2">10 mins grocery now</h3>
         <p className="text-gray-600">Get your order delivered to your doorstep at the earliest from Field2fork pickup stores near you.</p>
       </div>
 
       {/* Feature 2 */}
-      <div className="w-1/4 text-center bg-green-500 p-6 rounded-xl shadow-2xl hover:shadow-green-700/50 transition-all duration-300">
+      <div className="w-1/4 text-center bg-green-400 p-6  hover:bg-green-500 rounded-xl shadow-2xl hover:shadow-green-800/50 transition-all duration-300">
         <h3 className="text-2xl font-bold text-white mb-2">Best Prices & Offers</h3>
         <p className="text-gray-600">Cheaper prices than your local supermarket, great cashback offers to top it off. Get best prices & offers.</p>
       </div>
 
       {/* Feature 3 */}
-      <div className="w-1/4 text-center bg-green-500 p-6 rounded-xl shadow-2xl hover:shadow-green-700/50 transition-all duration-300">
+      <div className="w-1/4 text-center bg-green-400 p-6  hover:bg-green-500 rounded-xl shadow-2xl hover:shadow-green-800/50 transition-all duration-300">
         <h3 className="text-2xl font-bold text-white mb-2">Wide Assortment</h3>
         <p className="text-gray-600">Choose from 5000+ products across vegetables, fruits, grains, bakery & other categories.</p>
       </div>
 
       {/* Feature 4 */}
-      <div className="w-1/4 text-center bg-green-500 p-6 rounded-xl shadow-2xl hover:shadow-green-700/50 transition-all duration-300">
+      <div className="w-1/4 text-center bg-green-400 p-6  hover:bg-green-500 rounded-xl shadow-2xl hover:shadow-green-800/50 transition-all duration-300">
         <h3 className="text-2xl font-bold text-white mb-2">Easy Returns</h3>
         <p className="text-gray-600">Not satisfied with a product? Return it at the doorstep & get a refund within hours. No questions asked policy.</p>
       </div>
@@ -38,22 +38,22 @@ const Footer = () => {
       <div className="container mx-auto px-4 flex flex-wrap justify-between bg-gray">
         <div className="w-full md:w-1/4 mb-6 md:mb-0">
           <div className="font-bold text-xl mb-2">
-            <img src="src/assets/logos/logo1.jpg" alt="Field2fork Logo" className="h-15 w-auto inline mr-2" />
+            <img src="/logos/logo1.jpg" alt="Field2fork Logo" className="h-15 w-auto inline mr-2" />
             Field2fork
           </div>
           <p className="text-gray-600">We offer high-quality foods and the best delivery service, and the food market you can blindly trust</p>
           <div className="mt-4 flex">
             <a href="#" className="mr-6">
-              <img src="src/assets/logos/facebook1.jpg" alt="Facebook" className="h-6 w-6" />
+              <img src="/logos/facebook1.jpg" alt="Facebook" className="h-6 w-6" />
             </a>
             <a href="#" className="mr-6">
-              <img src="src/assets/logos/instagram.jpg" alt="Instagram" className="h-6 w-6" />
+              <img src="/logos/instagram.jpg" alt="Instagram" className="h-6 w-6" />
             </a>
             <a href="#" className="mr-6">
-              <img src="src/assets/logos/twitter.png" alt="Twitter" className="h-6 w-6" />
+              <img src="/logos/twitter.png" alt="Twitter" className="h-6 w-6" />
             </a>
             <a href="#">
-              <img src="src/assets/logos/youtube.png" alt="YouTube" className="h-6 w-6" />
+              <img src="/logos/youtube.png" alt="YouTube" className="h-6 w-6" />
             </a>
           </div> {/* This closing div was missing */}
         </div>

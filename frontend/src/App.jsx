@@ -28,6 +28,8 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
+import AboutUs from "./pages/AboutUs";
+import Shopgrid from "./pages/Shopgrid";
 
 const App = () => {
   return (
@@ -37,6 +39,8 @@ const App = () => {
         {/* Use Routes instead of Switch */}
         <Route path="/" element={<Home />} />{" "}
         <Route path="/contact" element={<ContactUs />} /> 
+        <Route path="/about" element={<AboutUs/>}/>
+        <Route path="/shopgrid" element={<Shopgrid/>}/>
         {/* Use element prop instead of component */}
         {/* Add more routes as needed */}
       </Routes>

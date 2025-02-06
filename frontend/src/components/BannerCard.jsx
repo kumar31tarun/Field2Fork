@@ -1,6 +1,6 @@
 import React from 'react';
-import banner1 from "../assets/banner/grocery-banner-2.jpg"; // Adjust image path as necessary
-import banner2 from "../assets/banner/grocery-banner.png"; // Adjust image path as necessary
+// import banner1 from "../assets/banner/grocery-banner-2.jpg"; 
+// import banner2 from "../assets/banner/grocery-banner.png"; 
 
 const BannerCard = () => {
   return (
@@ -10,7 +10,7 @@ const BannerCard = () => {
         <div
           className="py-10 px-8 rounded-lg overflow-hidden transform transition-transform duration-300 ease-in-out hover:scale-105"
           style={{
-            backgroundImage: `url(${banner1})`,
+            backgroundImage: `url(/banner/grocery-banner-2.jpg)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
@@ -37,7 +37,7 @@ const BannerCard = () => {
         <div
           className="py-10 px-8 rounded-lg overflow-hidden transform transition-transform duration-300 ease-in-out hover:scale-105"
           style={{
-            backgroundImage: `url(${banner2})`,
+            backgroundImage: `url(/banner/grocery-banner.png)`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}
