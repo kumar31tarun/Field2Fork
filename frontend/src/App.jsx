@@ -1,42 +1,21 @@
-// import Header from "./components/Header";
-// import Navbar from "./components/Navbar";
-// import OfferCard from "./components/OfferCard";
-// import WelcomeCard from "./components/WelcomeCard";
-// import RenderOfferCard from "./components/RenderOfferCard";
-// import ShopByCategory from "./components/ShopByCategory";
-// import Footer from "./components/Footer";
-// import FruitsAndVegetable from "./components/FruitsAndVegetables";
-
-// const App = () => {
-//   return (
-//     <div>
-//       <Header />
-//       <Navbar />
-//       <WelcomeCard />
-//       <RenderOfferCard />
-//       <ShopByCategory />
-//       <FruitsAndVegetable />
-//       <br />
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default App;
-
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import RegistrationForm from "./components/Header/Seller_SignUp";
+import LoginForm from "./components/Header/LoginForm";
+import Seller_SignUp from "./components/Header/Seller_SignUp";
+import Buyer_SignUp from "./components/Header/Buyer_SignUp";
 
 const App = () => {
   return (
     <Router>
       <Routes>
         {" "}
-        {/* Use Routes instead of Switch */}
         <Route path="/" element={<Home />} />{" "}
-        {/* Use element prop instead of component */}
-        {/* Add more routes as needed */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/signup" element={<RegistrationForm />} />
+        <Route path="/signup/seller" element={<Seller_SignUp />} />
+        <Route path="/signup/buyer" element={<Buyer_SignUp />} />
       </Routes>
     </Router>
   );
