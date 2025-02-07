@@ -26,7 +26,7 @@ import com.field2fork.dtos.ProductRequestDTO;
 @RestController
 @RequestMapping("/products")
 //@CrossOrigin(origins = "http://localhost:3000")
-@CrossOrigin(origins = "http://localhost:5174")
+@CrossOrigin(origins = "http://localhost:5173")
 public class ProductController {
 	@Autowired
 	private ProductService prodService;

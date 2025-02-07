@@ -5,6 +5,8 @@ import java.util.List;
 import com.field2fork.dtos.ApiResponse;
 import com.field2fork.dtos.CartRequestDTO;
 import com.field2fork.dtos.CartResponseDTO;
+import com.field2fork.dtos.OrderResponseDTO;
+import com.field2fork.dtos.RazorpayResponseDTO;
 
 public interface CartService {
 
@@ -16,6 +18,6 @@ public interface CartService {
 	
 	ApiResponse addItemsToCart(CartRequestDTO request);
 	
-	ApiResponse checkoutCart(Long cartId);
+	RazorpayResponseDTO checkoutCart(Long cartId);
 
 }

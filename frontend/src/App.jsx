@@ -5,6 +5,11 @@ import RegistrationForm from "./components/Header/Seller_SignUp";
 import LoginForm from "./components/Header/LoginForm";
 import Seller_SignUp from "./components/Header/Seller_SignUp";
 import Buyer_SignUp from "./components/Header/Buyer_SignUp";
+import Product from "./pages/Product";
+import CartTable from "./components/CartTable";
+import Cart from "./pages/Cart";
+import Checkout from "./components/Checkout";
+import PaymentStatus from "./components/PaymentStatus";
 
 const App = () => {
   return (
@@ -16,6 +21,10 @@ const App = () => {
         <Route path="/signup" element={<RegistrationForm />} />
         <Route path="/signup/seller" element={<Seller_SignUp />} />
         <Route path="/signup/buyer" element={<Buyer_SignUp />} />
+        <Route path="/Product/:id" element={<Product />} />
+        <Route path="/Cart/:id" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/payment-status" element={<PaymentStatus />} />
       </Routes>
     </Router>
   );
