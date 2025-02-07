@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.field2fork.custom_exception.ResourceNotFoundException;
 import com.field2fork.dtos.ApiResponse;
 import com.field2fork.dtos.BuyerDTO;
+import com.field2fork.dtos.DashboardStatsDTO;
 import com.field2fork.dtos.SellerDTO;
 import com.field2fork.dtos.UserDTO;
 import com.field2fork.pojos.User;
+import com.field2fork.service.DashboardService;
 import com.field2fork.service.UserService;
 
 @RestController
@@ -33,6 +35,8 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	@Autowired
+    private DashboardService dashboardService;
 	
 	
 	@PostMapping("/login")
@@ -207,6 +211,11 @@ public class UserController {
 	        } catch (Exception e) {
 	            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse("Failed to update rating."));
 	        }
+	    }
+	    
+	    @GetMapping("/dashboard-stats")
+	    public DashboardStatsDTO getDashboardStats() {
+	        return dashboardService.getDashboardStats();
 	    }
 
 }
