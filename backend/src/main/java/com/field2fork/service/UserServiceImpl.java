@@ -44,17 +44,37 @@ public class UserServiceImpl implements UserService {
 	   
 
 
-	
-	@Override
-    public String loginUser(String username, String password) {
-        Optional<User> user = userDao.findByUsername(username);
-        
-        if (user.isPresent() && user.get().getActiveStatus() && passwordEncoder.matches(password, user.get().getPassword())) {
-            return "Login successful!";
-        } else {
-            return "Invalid username, password, or account is inactive!";
-        }
-    }
+	   @Override
+	   public UserDTO loginUser (String username, String password) {
+	       Optional<User> user = userDao.findByUsername(username);
+	       
+	       if (user.isPresent()) {
+	           System.out.println("User  found: " + username);
+	           System.out.println("Active status: " + user.get().getActiveStatus());
+	           
+	           // Print the stored hashed password
+	           String storedHashedPassword = user.get().getPassword();
+	           System.out.println("Stored hashed password: " + storedHashedPassword);
+	           
+	           // Check if the password matches
+	           if (user.get().getActiveStatus() && passwordEncoder.matches(password, storedHashedPassword)) {
+	               System.out.println("Password matches!");
+	               
+	               // Create a UserDTO from the User object
+	               UserDTO userDto = new UserDTO(user.get());
+	               // Set the password to null before returning
+	               userDto.setPassword(null);
+	               
+	               return userDto; // Return the UserDTO with password set to null
+	           } else {
+	               System.out.println("Password does not match or account is inactive.");
+	               throw new RuntimeException("Invalid username, password, or account is inactive!");
+	           }
+	       } else {
+	           System.out.println("User  not found: " + username);
+	           throw new RuntimeException("Invalid username, password, or account is inactive!");
+	       }
+	   }
 
 
 	

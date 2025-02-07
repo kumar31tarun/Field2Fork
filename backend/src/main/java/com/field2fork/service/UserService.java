@@ -10,7 +10,7 @@ import com.field2fork.pojos.User;
 
 public interface UserService {
 
-	String loginUser(String username, String password);
+	UserDTO loginUser(String username, String password);
 
 	List<User> getAllUsers();
 
