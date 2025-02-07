@@ -22,6 +22,7 @@ public class ProductRespDTO {
     private Integer stockQuantity;
     private ProductStatus status;
     private ProductCategory category; 
+    private Boolean activeStatus ;
     
     
 	public ProductRespDTO(Long id,String name, String description, BigDecimal pricePerUnit, Integer stockQuantity,

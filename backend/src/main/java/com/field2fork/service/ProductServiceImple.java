@@ -36,7 +36,7 @@ public class ProductServiceImple implements ProductService {
 	public List<ProductRespDTO> getAllProducts() {
 		// TODO Auto-generated method stub
 		return productDao.findAll()
-				.stream().filter(productDao -> productDao.getActiveStatus())
+				.stream()
 				.map(product -> 
 				modelMapper.map(product, 
 						ProductRespDTO.class))
