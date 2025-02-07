@@ -76,13 +76,13 @@ public class UserServiceImpl implements UserService {
 	        Pageable pageable = PageRequest.of(0, 10);
 	        return userDao.findNextBuyers(lastId, pageable)
 	                .stream()
-	                .filter(User::getActiveStatus) // Check activeStatus before sending
 	                .map(user -> new BuyerDTO(
 	                        user.getId(),
 	                        user.getUsername(),
 	                        user.getEmail(),
 	                        user.getContactNumber(),
-	                        user.getAddress()
+	                        user.getAddress(),
+	                        user.getActiveStatus()
 	                ))
 	                .collect(Collectors.toList());
 	    }
@@ -92,13 +92,14 @@ public class UserServiceImpl implements UserService {
 	        List<User> buyers = userDao.findPreviousBuyers(firstId, PageRequest.of(0, 10));
 	        Collections.reverse(buyers); // Reverse to maintain ascending order
 	        return buyers.stream()
-	                .filter(User::getActiveStatus) // Check activeStatus before sending
 	                .map(user -> new BuyerDTO(
 	                        user.getId(),
 	                        user.getUsername(),
 	                        user.getEmail(),
 	                        user.getContactNumber(),
-	                        user.getAddress()
+	                        user.getAddress(),
+	                        user.getActiveStatus()
+	                       
 	                ))
 	                .collect(Collectors.toList());
 	    }
@@ -112,14 +113,14 @@ public class UserServiceImpl implements UserService {
 	        Pageable pageable = PageRequest.of(0, 10);
 	        return userDao.findNextSellers(lastId, pageable)
 	                .stream()
-	                .filter(User::getActiveStatus) // Check activeStatus before sending
 	                .map(user -> new SellerDTO(
 	                        user.getId(),
 	                        user.getUsername(),
 	                        user.getEmail(),
 	                        user.getContactNumber(),
 	                        user.getLocation(),
-	                        user.getRating()
+	                        user.getRating(),
+	                        user.getActiveStatus()
 	                ))
 	                .collect(Collectors.toList());
 	    }
@@ -129,14 +130,14 @@ public class UserServiceImpl implements UserService {
 	        List<User> sellers = userDao.findPreviousSellers(firstId, PageRequest.of(0, 10));
 	        Collections.reverse(sellers); // Reverse to maintain ascending order
 	        return sellers.stream()
-	                .filter(User::getActiveStatus) // Check activeStatus before sending
 	                .map(user -> new SellerDTO(
 	                        user.getId(),
 	                        user.getUsername(),
 	                        user.getEmail(),
 	                        user.getContactNumber(),
 	                        user.getLocation(),
-	                        user.getRating()
+	                        user.getRating(),
+	                        user.getActiveStatus()
 	                ))
 	                .collect(Collectors.toList());
 	    }
@@ -150,8 +151,8 @@ public class UserServiceImpl implements UserService {
 	        if (userOptional.isPresent()) {
 	            User user = userOptional.get();
 	            
-	            // Check if the user has the SELLER role and is active
-	            if (user.getRole() == Role.SELLER && user.getActiveStatus()) {
+	            // Check if the user has the SELLER role 
+	            if (user.getRole() == Role.SELLER) {
 	                return List.of(modelMapper.map(user, SellerDTO.class));
 	            }
 	        }
@@ -166,8 +167,8 @@ public class UserServiceImpl implements UserService {
 	        if (userOptional.isPresent()) {
 	            User user = userOptional.get();
 	            
-	            // Check if the user has the BUYER role and is active
-	            if (user.getRole() == Role.BUYER && user.getActiveStatus()) {
+	            // Check if the user has the BUYER role
+	            if (user.getRole() == Role.BUYER) {
 	                return List.of(modelMapper.map(user, BuyerDTO.class));
 	            }
 	        }
