@@ -27,6 +27,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const App = () => {
   return (
@@ -35,6 +36,7 @@ const App = () => {
         {" "}
         {/* Use Routes instead of Switch */}
         <Route path="/" element={<Home />} />{" "}
+        <Route path="/admin/*" element={<AdminDashboard />} />
         {/* Use element prop instead of component */}
         {/* Add more routes as needed */}
       </Routes>
