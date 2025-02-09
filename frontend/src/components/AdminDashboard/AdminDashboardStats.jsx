@@ -111,10 +111,7 @@ const AdminDashboardStats = () => {
           { title: "Sellers Activity", data: sellersPieData },
           { title: "Product Availability", data: productsPieData },
         ].map((chart, index) => (
-          <div
-            key={index}
-            className="bg-white p-6 rounded-lg shadow-lg text-center"
-          >
+          <div key={index} className="mt-8 bg-white p-6 rounded-lg shadow-lg">
             <h3 className="text-lg font-semibold mb-4 text-gray-700">
               {chart.title}
             </h3>
