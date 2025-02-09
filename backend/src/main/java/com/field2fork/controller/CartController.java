@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 import com.field2fork.dtos.ApiResponse;
 import com.field2fork.dtos.CartRequestDTO;
 import com.field2fork.dtos.CartResponseDTO;
+import com.field2fork.pojos.Order;
 import com.field2fork.service.CartService;
 
 
 
 @RestController
 @RequestMapping("/cart")
+@CrossOrigin(origins = "http://localhost:5173")
 public class CartController {
 	@Autowired
 	private CartService cartService;
@@ -88,14 +91,14 @@ public class CartController {
 	    }
 	  
 	  @PostMapping("/checkout/{cartId}")
-	    public ResponseEntity<ApiResponse> checkoutCart(@PathVariable Long cartId) {
+	    public ResponseEntity<?> checkoutCart(@PathVariable Long cartId) {
 	        try {
 	    		return ResponseEntity.status(HttpStatus.CREATED).body( cartService.checkoutCart(cartId));
 	    	}
 	    	catch(RuntimeException e) {
 	    		return ResponseEntity.
 	    				status(HttpStatus.BAD_REQUEST)
-	    				.body(new ApiResponse(e.getMessage()));
+	    				.body(null);
 	    	}
 	    }
 }

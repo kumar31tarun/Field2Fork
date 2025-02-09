@@ -3,6 +3,9 @@ package com.field2fork.pojos;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,9 +38,11 @@ public class Cart extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+	
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false,unique = false)
     private User user;
+
 
      @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
      private List<CartItem> cartItems;

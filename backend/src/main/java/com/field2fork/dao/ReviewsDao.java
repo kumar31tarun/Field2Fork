@@ -17,7 +17,7 @@ public interface ReviewsDao extends JpaRepository<Reviews, Long>{
 	
 	@Query("SELECT new com.field2fork.dtos.ReviewsRespDTO(r.id, r.review_date, r.rating, r.reviewText, " +
 		       "r.product.id, r.product.name, r.user.id, r.user.username) " +
-		       "FROM Reviews r WHERE r.id = :productId")
+		       "FROM Reviews r WHERE r.product.id = :productId")
 		List<ReviewsRespDTO> findReviewsByProductId(@Param("productId") Long productId);
 
 

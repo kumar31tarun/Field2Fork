@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -42,6 +46,7 @@ public class Order {
     private Timestamp order_date;
 
     @ManyToOne
+    @JsonBackReference  
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
@@ -55,6 +60,7 @@ public class Order {
     private Timestamp deliveryDate;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @JsonManagedReference // Manage the serialization of orderItems
     private List<OrderItem> orderItems;
     
 }

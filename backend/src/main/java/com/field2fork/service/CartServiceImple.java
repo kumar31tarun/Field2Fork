@@ -1,6 +1,7 @@
 package com.field2fork.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -23,6 +24,8 @@ import com.field2fork.dtos.CartRequestDTO;
 import com.field2fork.dtos.CartItemRequestDTO;
 import com.field2fork.dtos.CartItemResponseDTO;
 import com.field2fork.dtos.CartResponseDTO;
+import com.field2fork.dtos.OrderResponseDTO;
+import com.field2fork.dtos.RazorpayResponseDTO;
 import com.field2fork.pojos.Cart;
 import com.field2fork.pojos.CartItem;
 import com.field2fork.pojos.Order;
@@ -144,13 +147,13 @@ public class CartServiceImple implements CartService {
     }
 	
 	 @Override
-	    public ApiResponse checkoutCart(Long cartId) {
+	    public RazorpayResponseDTO checkoutCart(Long cartId) {
 	        // Get the cart
 	        Cart cart = cartDao.findById(cartId)
 	                .orElseThrow(() -> new ResourceNotFoundException("Cart not found"));
 
 	        if (cart.getCartItems().isEmpty()) {
-	            return new ApiResponse("Cart is empty. Add items before checkout.");
+	        	throw new RuntimeException("Cart is empty. Add items before checkout.");
 	        }
 	        
 	        // Create a new order with pending status
@@ -171,8 +174,18 @@ public class CartServiceImple implements CartService {
 	            orderItem.setQuantity(cartItem.getQuantity());
 	            orderItem.setPrice(cartItem.getPrice());
 	            orderItems.add(orderItem);
-	            totalAmount = totalAmount.add(cartItem.getPrice());
+	        
+	            // Calculate item total
+	            BigDecimal itemTotal = cartItem.getPrice().multiply(new BigDecimal(cartItem.getQuantity()));
+	            totalAmount = totalAmount.add(itemTotal);
 	        }
+	         totalAmount = totalAmount.add(totalAmount.multiply(new BigDecimal("0.10"))); // Adding 10% tax
+
+	         // Round off the total amount to 2 decimal places
+     	     totalAmount = totalAmount.setScale(2, RoundingMode.HALF_UP);
+ 
+	          // Print the total amount
+	        System.out.println("Total Amount (including tax): " + totalAmount);
 	        order.setOrderItems(orderItems);
 	        order.setTotalAmount(totalAmount);
 	        
@@ -181,14 +194,26 @@ public class CartServiceImple implements CartService {
 	        
 	     // Now, create a Razorpay order for this order.
 	        String receiptId = "order_rcptid_" + order.getId();
+	        com.razorpay.Order razorpayOrder;
 	        try {
-	             RazorpayUtil.createRazorpayOrder(order.getTotalAmount(), "INR", receiptId);
+	        	razorpayOrder = RazorpayUtil.createRazorpayOrder(order.getTotalAmount(), "INR", receiptId);
 	            // Save updated order if needed.
 	            orderDao.save(order);
 	        } catch (Exception e) {
 	            throw new RuntimeException("Failed to create Razorpay order: " + e.getMessage(), e);
 	        }
+
+	        // Use ModelMapper to map Order to RazorpayResponseDTO
+	        RazorpayResponseDTO razorpayResponseDTO = modelMapper.map(order, RazorpayResponseDTO.class);
 	        
-	        return new ApiResponse("Order placed successfully! Order ID: " + order.getId());
+	        // Set the Razorpay-specific fields
+	        razorpayResponseDTO.setOrderId(order.getId());
+	        razorpayResponseDTO.setRazorpayOrderId(razorpayOrder.get("id"));
+	        razorpayResponseDTO.setAmount(totalAmount);
+	        razorpayResponseDTO.setCurrency(razorpayOrder.get("currency"));
+	        razorpayResponseDTO.setReceipt(receiptId);
+	        razorpayResponseDTO.setStatus(razorpayOrder.get("status"));
+
+	        return razorpayResponseDTO;
 	    }
 }
