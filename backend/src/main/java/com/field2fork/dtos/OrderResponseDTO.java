@@ -16,6 +16,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderResponseDTO {
+	 private Long id;
 	private Timestamp order_date;
 	private BigDecimal totalAmount;
 	private OrderStatus orderStatus;
