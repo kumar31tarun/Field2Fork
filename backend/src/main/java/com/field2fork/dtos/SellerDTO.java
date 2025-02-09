@@ -19,4 +19,5 @@ public class SellerDTO {
     private String contactNumber;
     private String Location;
     private Float rating;
+    private Boolean activeStatus;
 }

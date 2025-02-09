@@ -8,6 +8,7 @@ import Buyer_SignUp from "./components/Header/Buyer_SignUp";
 import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Checkout from "./components/Checkout";
+import AdminDashboard from "./pages/AdminDashboard";
 
 const App = () => {
   return (
@@ -22,6 +23,9 @@ const App = () => {
         <Route path="/Product/:id" element={<Product />} />
         <Route path="/Cart/:id" element={<Cart />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/admin/*" element={<AdminDashboard />} />
+        {/* Use element prop instead of component */}
+        {/* Add more routes as needed */}
       </Routes>
     </Router>
   );
