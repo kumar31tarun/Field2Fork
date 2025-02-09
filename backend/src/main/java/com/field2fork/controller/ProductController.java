@@ -131,18 +131,29 @@ public class ProductController {
 	 * Method - GET
 	 */
 	@GetMapping("/{product_id}")
-	public ResponseEntity<?> getProductById(@PathVariable Long product_id)
-	{
-		System.out.println("in get product by id");
-		List<ProductRespDTO> product = prodService.getProductById(product_id);
-		if (product.isEmpty()) {
-			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	public ResponseEntity<?> getProductById(@PathVariable Long product_id) {
+	    System.out.println("in get product by id");
+	    ProductRespDTO product = prodService.getProductById(product_id);
+	    if (product == null) {
+	        return ResponseEntity.status(HttpStatus.NOT_FOUND)
 	                .body("No such product with given Id");
-		} else {
-			return ResponseEntity.ok(product);
-		}
-		
+	    } else {
+	        return ResponseEntity.ok(product);
+	    }
 	}
+
+	
+	 @GetMapping("/seller/{sellerId}")
+	    public ResponseEntity<?> getProductsBySeller(@PathVariable Long sellerId) {
+	        System.out.println("in get products by seller " + sellerId);
+	        List<ProductRespDTO> products = prodService.getProductsBySeller(sellerId);
+	        if (products == null || products.isEmpty()) {
+	            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+	                    .body("No products found for seller id " + sellerId);
+	        } else {
+	            return ResponseEntity.ok(products);
+	        }
+	    }
 	
 	
 	/*
