@@ -16,14 +16,14 @@ import lombok.ToString;
 @Setter
 @ToString
 public class OrderResponseDTO {
-	 private Long id;
+	private Long id;
 	private Timestamp order_date;
 	private BigDecimal totalAmount;
 	private OrderStatus orderStatus;
 	private Timestamp deliveryDate;
-	public OrderResponseDTO(Timestamp order_date, BigDecimal totalAmount, OrderStatus orderStatus,
+	public OrderResponseDTO(Long order_id, Timestamp order_date, BigDecimal totalAmount, OrderStatus orderStatus,
 			Timestamp deliveryDate) {
-		super();
+		this.id =order_id;
 		this.order_date = order_date;
 		this.totalAmount = totalAmount;
 		this.orderStatus = orderStatus;
