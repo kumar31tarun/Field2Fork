@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.field2fork.dtos.ApiResponse;
 import com.field2fork.dtos.CartRequestDTO;
 import com.field2fork.dtos.CartResponseDTO;
+import com.field2fork.pojos.Order;
 import com.field2fork.service.CartService;
 
 
@@ -90,14 +91,14 @@ public class CartController {
 	    }
 	  
 	  @PostMapping("/checkout/{cartId}")
-	    public ResponseEntity<ApiResponse> checkoutCart(@PathVariable Long cartId) {
+	    public ResponseEntity<?> checkoutCart(@PathVariable Long cartId) {
 	        try {
 	    		return ResponseEntity.status(HttpStatus.CREATED).body( cartService.checkoutCart(cartId));
 	    	}
 	    	catch(RuntimeException e) {
 	    		return ResponseEntity.
 	    				status(HttpStatus.BAD_REQUEST)
-	    				.body(new ApiResponse(e.getMessage()));
+	    				.body(null);
 	    	}
 	    }
 }
