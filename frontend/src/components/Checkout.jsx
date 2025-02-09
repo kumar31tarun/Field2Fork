@@ -1,8 +1,19 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { loadRazorpayScript, processPayment } from "./paymentService";
+import { loadRazorpayScript, processPayment } from "../api/paymentService";
 import { motion } from "framer-motion";
-import { CheckCircle, XCircle, Home, RefreshCcw } from "lucide-react";
+import {
+  CheckCircle,
+  XCircle,
+  Home,
+  RefreshCcw,
+  MapPin,
+  Mail,
+  User,
+  ShoppingCart,
+  CreditCard,
+  Receipt,
+} from "lucide-react";
 
 const Checkout = () => {
   const location = useLocation();
@@ -12,6 +23,21 @@ const Checkout = () => {
   const [message, setMessage] = useState("");
   const [paymentId, setPaymentId] = useState("");
   const navigate = useNavigate();
+  const [user, setUser] = useState({
+    name: "",
+    email: "",
+    address: "",
+  });
+  useEffect(() => {
+    // Fetch user details from session storage
+    const storedUser = JSON.parse(sessionStorage.getItem("user")) || {
+      name: "John Doe",
+      email: "johndoe@example.com",
+      address: "123 Main Street, City, Country",
+    };
+    setUser(storedUser);
+    setAddress(storedUser.address);
+  }, []);
 
   const handlePayment = async () => {
     try {
@@ -57,25 +83,119 @@ const Checkout = () => {
       alert("Payment failed. Please try again.");
     }
   };
-
   return (
-    <div className="p-6">
-      <h2 className="text-xl font-semibold">Checkout</h2>
-      <p>Total Amount: ₹{totalAmount}</p>
-      <input
-        type="text"
-        placeholder="Shipping Address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-        className="w-full p-2 border rounded mt-4"
-      />
-      <button
-        className="w-full bg-green-500 text-white p-2 mt-4 rounded"
-        onClick={handlePayment}
-      >
-        Place Order
-      </button>
+    <div className="min-h-screen flex justify-center items-center relative p-4 bg-gray-100">
+      {/* Background Image & Gradient Overlay */}
+      <div className="absolute inset-0">
+        <img
+          src="https://img.freepik.com/free-photo/top-view-desk-with-black-friday-gifts_23-2148288216.jpg?ga=GA1.1.1570994326.1738785388&semt=ais_hybrid"
+          alt="Checkout Background"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-blue-900/40 to-transparent"></div>
+      </div>
 
+      {/* Checkout Card */}
+      <div className="w-full max-w-lg bg-white shadow-xl rounded-xl p-6 border border-gray-300 z-10 animate-fade-in">
+        {/* Header */}
+        <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+          <ShoppingCart
+            className="text-blue-500 animate-bounce-slow"
+            size={26}
+          />
+          Checkout
+        </h2>
+        <p className="text-gray-500 mt-1">Complete your order details below</p>
+
+        {/* User Details */}
+        <div className="bg-gradient-to-r from-blue-100 to-blue-300 p-4 mt-4 rounded-lg shadow-md">
+          <h3 className="text-md font-semibold text-gray-700 mb-2">
+            Buyer Details
+          </h3>
+          <div className="flex items-center gap-3 text-gray-600">
+            <User size={16} className="text-gray-500" />
+            <p>{user.name}</p>
+          </div>
+          <div className="flex items-center gap-3 text-gray-600 mt-2">
+            <Mail size={16} className="text-gray-500" />
+            <p>{user.email}</p>
+          </div>
+          <div className="flex items-center gap-3 text-gray-600 mt-2">
+            <MapPin size={16} className="text-gray-500" />
+            <p>{user.address}</p>
+          </div>
+        </div>
+
+        {/* Address Input */}
+        <div className="relative mt-4">
+          <input
+            type="text"
+            placeholder="Enter a different shipping address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            className="w-full p-3 pl-10 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none transition-all"
+          />
+          <MapPin className="absolute left-3 top-3 text-gray-400" size={16} />
+        </div>
+
+        {/* Order Summary */}
+        <div className="bg-gradient-to-r from-blue-100 to-blue-300 p-4 mt-4 rounded-lg shadow-md">
+          <h3 className="text-md font-semibold text-gray-700 mb-2">
+            Order Summary
+          </h3>
+          <div className="flex justify-between text-gray-600">
+            <span>Subtotal:</span>
+            <span>₹2000.00</span>
+          </div>
+          <div className="flex justify-between text-gray-600">
+            <span>Delivery:</span>
+            <span>₹22.00</span>
+          </div>
+          <div className="flex justify-between text-md font-bold text-gray-900 mt-2">
+            <span>Total:</span>
+            <span>₹{totalAmount}</span>
+          </div>
+        </div>
+
+        {/* Payment Methods */}
+        <div className="mt-4 bg-white p-4 rounded-lg shadow-md border border-gray-200">
+          <h3 className="text-md font-semibold text-gray-700">
+            Payment Methods
+          </h3>
+          <div className="flex items-center gap-4 mt-3">
+            <CreditCard className="text-gray-600" size={20} />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/0/04/Visa.svg"
+              alt="Visa"
+              className="h-5"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg"
+              alt="MasterCard"
+              className="h-5"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg"
+              alt="PayPal"
+              className="h-5"
+            />
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b0/Apple_Pay_logo.svg"
+              alt="Apple Pay"
+              className="h-5"
+            />
+          </div>
+        </div>
+        <button
+          onClick={handlePayment}
+          className="w-full bg-gradient-to-br from-emerald-500 to-teal-600 text-white py-3.5 rounded-xl font-semibold 
+        hover:shadow-lg hover:scale-[1.02] transition-transform duration-300 flex items-center justify-center gap-2
+        shadow-emerald-200/50 hover:shadow-emerald-300/50"
+        >
+          <ShoppingCart className="w-5 h-5" />
+          Place Order - ₹{totalAmount}
+        </button>
+      </div>
       {paymentStatus && (
         <div className="fixed inset-0 flex items-center justify-center  bg-opacity-30 backdrop-blur-sm">
           <motion.div
@@ -130,6 +250,33 @@ const Checkout = () => {
           </motion.div>
         </div>
       )}
+      <style jsx>{`
+        @keyframes fade-in-up {
+          0% {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.6s ease-out;
+        }
+        .animate-bounce-slow {
+          animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+      `}</style>
     </div>
   );
 };

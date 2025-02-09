@@ -1,135 +1,351 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Bell, ShoppingCart, Archive, User } from "lucide-react";
+import {
+  ShoppingCart,
+  User,
+  Bell,
+  ShoppingBag,
+  ChevronDown,
+  Menu,
+  X,
+  Leaf,
+  LogIn,
+} from "lucide-react";
+import { fetchCategories } from "../../api/headerService";
+import { fetchCartTotalQuantity } from "../../api/cartService";
 
 const Header = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false); // Add your auth state logic
   const [showRegister, setShowRegister] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const [cartQuantity, setCartQuantity] = useState(0);
   const navigate = useNavigate();
 
+  // Check for token in sessionStorage on mount
+  useEffect(() => {
+    const token = sessionStorage.getItem("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  useEffect(() => {
+    const loadCategories = async () => {
+      const categoriesData = await fetchCategories();
+      setCategories(categoriesData);
+    };
+    loadCategories();
+  }, []);
+
+  // Fetch cart items quantity
+  useEffect(() => {
+    const fetchCartQuantity = async () => {
+      const userId = sessionStorage.getItem("userId"); // Get userId from sessionStorage
+      if (userId) {
+        const totalQuantity = await fetchCartTotalQuantity(userId);
+        console.log("Total Quantity:", totalQuantity); // Debugging
+        setCartQuantity(totalQuantity);
+      } else {
+        console.log("No user ID found in sessionStorage");
+      }
+    };
+    fetchCartQuantity();
+  }, []);
+
+  const authLinks = [
+    { icon: Bell, label: "Notifications", path: "#" },
+    { icon: ShoppingBag, label: "Orders", path: "/orders" },
+    { icon: ShoppingCart, label: "Cart", path: "/cart" },
+  ];
+
   return (
-    <header className="bg-white shadow-md w-full top-0 z-50 px-4 md:px-20">
+    <>
       <motion.div
         initial={{ opacity: 0, y: -50 }}
         animate={{ opacity: 1, y: 0 }}
       >
-        <div className="container mx-auto py-4 flex justify-between items-center">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/">
-              <img
-                src="/HomeImages/F2F.png"
-                alt="Field2Fork"
-                className="h-20 w-30"
-              />
-            </Link>
-          </div>
-          {/* Search Bar */}
-          <div className="w-1/3 relative hidden md:flex items-center border border-green-300 rounded-lg overflow-hidden shadow-sm">
-            <input
-              type="text"
-              placeholder="Search for products"
-              className="w-full p-2 pl-4 outline-none"
-            />
-            <button className="bg-green-800 text-white px-4 py-2 rounded-r-lg hover:bg-green-700 transition">
-              Search
-            </button>
-          </div>
+        {/* Main Header */}
+        <header className="bg-white border-b border-gray-100 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="h-16 flex items-center justify-between">
+              {/* Left Section */}
+              <div className="flex items-center space-x-8">
+                <Link to="/" className="flex items-center">
+                  <Leaf className="h-8 w-8 text-emerald-600" />
+                  <span className="ml-2 text-xl font-bold text-gray-900">
+                    Field2Fork
+                  </span>
+                </Link>
 
-          {/* Icons with Labels */}
-          <div className="flex space-x-6">
-            {/* Notification */}
-            <Link
-              to="#"
-              className="group flex flex-col items-center text-gray-700 transition"
-            >
-              <Bell className="text-gray-500 w-6 h-6 group-hover:text-green-700 transition duration-300" />
-              <span className="text-xs text-gray-500 group-hover:text-green-700 transition duration-300">
-                Notification
-              </span>
-            </Link>
+                {/* Desktop Navigation */}
+                <nav className="hidden md:flex items-center space-x-6">
+                  <div className="relative">
+                    <button
+                      onMouseEnter={() => setIsDropdownOpen(true)}
+                      onMouseLeave={() => setIsDropdownOpen(false)}
+                      className="flex items-center text-gray-600 hover:text-emerald-600 transition-colors font-medium"
+                    >
+                      Categories
+                      <ChevronDown className="ml-1 h-4 w-4" />
+                    </button>
 
-            {/* Sign Up */}
-            <button
-              onClick={() => setShowRegister(true)}
-              className="group flex flex-col items-center text-gray-700 transition"
-            >
-              <User className="text-gray-500 w-6 h-6 group-hover:text-green-700 transition duration-300" />
-              <span className="text-xs text-gray-500 group-hover:text-green-700 transition duration-300">
-                Sign up
-              </span>
-            </button>
-
-            {/* Orders */}
-            <Link
-              to="/account-orders"
-              className="group flex flex-col items-center text-gray-700 transition"
-            >
-              <Archive className="text-gray-500 w-6 h-6 group-hover:text-green-700 transition duration-300" />
-              <span className="text-xs text-gray-500 group-hover:text-green-700 transition duration-300">
-                My Orders
-              </span>
-            </Link>
-
-            {/* Shopping Cart */}
-            <Link
-              to="/Cart"
-              //Here update later when the sessionStroage is implemented add the id form the storage in front of route as "/cart/:id"
-              // also update the routes in app.jsx as similar
-              className="group flex flex-col items-center text-gray-700 transition"
-            >
-              <ShoppingCart className="text-gray-500 w-6 h-6 group-hover:text-green-700 transition duration-300" />
-              <span className="text-xs text-gray-500 group-hover:text-green-700 transition duration-300">
-                Shopping Cart
-              </span>
-            </Link>
-          </div>
-        </div>
-        {/* Sign Up Modal */}
-        <AnimatePresence>
-          {showRegister && (
-            <motion.div
-              className="fixed inset-0 flex justify-center items-center backdrop-blur-sm"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <motion.div
-                className="bg-white p-6 rounded-2xl shadow-lg w-80 text-center border border-green-300"
-                initial={{ scale: 0.8 }}
-                animate={{ scale: 1 }}
-                exit={{ scale: 0.8 }}
-              >
-                <h2 className="text-xl font-semibold text-green-800 mb-4">
-                  Sign Up As
-                </h2>
-                <div className="flex justify-center space-x-4 border-dotted border-2 border-green-800 p-4 rounded-lg">
-                  <button
-                    onClick={() => navigate("/signup/buyer")}
-                    className="px-6 py-2 bg-green-800 text-white rounded-lg hover:bg-green-700 transition duration-200"
+                    <AnimatePresence>
+                      {isDropdownOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 10 }}
+                          className="absolute top-full left-0 w-48 bg-white border border-gray-100 rounded-lg shadow-lg py-2 mt-2"
+                          onMouseEnter={() => setIsDropdownOpen(true)} // Keep dropdown open on hover
+                          onMouseLeave={() => setIsDropdownOpen(false)}
+                        >
+                          {categories.length > 0 ? (
+                            <ul className="space-y-1">
+                              {categories.map((category, index) => (
+                                <li
+                                  key={index}
+                                  className="hover:bg-teal-100 rounded-md p-2"
+                                >
+                                  <Link
+                                    to={`/category/${category.id}`}
+                                    className="flex items-center text-gray-600"
+                                  >
+                                    {category.name}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          ) : (
+                            <p className="px-4 py-2 text-gray-500">
+                              Loading...
+                            </p>
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                  <Link
+                    to="/shop"
+                    className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
                   >
-                    Buyer
-                  </button>
-                  <button
-                    onClick={() => navigate("/signup/seller")}
-                    className="px-6 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition duration-200"
+                    Shop
+                  </Link>
+                  <Link
+                    to="/contact"
+                    className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
                   >
-                    Seller
+                    Contact
+                  </Link>
+                  <Link
+                    to="/about"
+                    className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
+                  >
+                    About
+                  </Link>
+                </nav>
+              </div>
+
+              {/* Right Section */}
+              <div className="flex items-center space-x-6">
+                {/* Search Bar */}
+                <div className="hidden md:block relative w-72">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    className="w-full pl-4 pr-10 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent hover:bg-gray-100 transition-colors duration-200 transform hover:scale-105"
+                  />
+                  <button className="absolute right-3 top-2.5 text-gray-400 hover:text-emerald-600">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-5 w-5"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      />
+                    </svg>
                   </button>
                 </div>
-                <button
-                  onClick={() => setShowRegister(false)}
-                  className="mt-4 text-gray-500 hover:text-gray-700 transition"
+
+                {/* Action Icons */}
+                <div className="flex items-center space-x-3">
+                  {authLinks.map((item, index) => (
+                    <Link
+                      key={index}
+                      to={item.path}
+                      className="p-2 text-gray-600 hover:text-emerald-600 rounded-lg hover:bg-gray-50 relative"
+                    >
+                      <item.icon className="h-5 w-5" />
+                      {item.label === "Cart" && (
+                        <span className="absolute -top-1 -right-1 bg-emerald-600 text-white text-xs h-4 w-4 rounded-full flex items-center justify-center">
+                          {cartQuantity}
+                          {/* Display total cart items quantity */}
+                        </span>
+                      )}
+                    </Link>
+                  ))}
+
+                  {/* Auth Section */}
+                  <div className="ml-2">
+                    {isLoggedIn ? (
+                      <div className="relative">
+                        <button className="flex items-center space-x-1">
+                          <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center hover:bg-emerald-200 transition-colors">
+                            <User className="h-4 w-4 text-emerald-600" />
+                          </div>
+                        </button>
+                        {/* Profile Dropdown */}
+                        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-100 rounded-lg shadow-lg py-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none group-hover:pointer-events-auto">
+                          <Link
+                            to="/profile"
+                            className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            Profile
+                          </Link>
+                          <button
+                            onClick={handleLogout}
+                            className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          >
+                            Logout
+                          </button>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => setShowRegister(true)}
+                        className="flex items-center space-x-1 bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition-colors duration-200 transform hover:scale-105"
+                      >
+                        <LogIn className="h-4 w-4" />
+                        <span>Sign In</span>
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Mobile Menu Button */}
+                  <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="md:hidden p-2 text-gray-600 hover:text-emerald-600"
+                  >
+                    {isMenuOpen ? (
+                      <X className="h-6 w-6" />
+                    ) : (
+                      <Menu className="h-6 w-6" />
+                    )}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Mobile Menu */}
+            <AnimatePresence>
+              {isMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="md:hidden absolute w-full bg-white border-b border-gray-100"
                 >
-                  Cancel
-                </button>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+                  <div className="px-4 py-4 space-y-4">
+                    <Link
+                      to="/shop"
+                      className="block text-gray-700 hover:text-emerald-600"
+                    >
+                      Shop
+                    </Link>
+                    <div className="space-y-2">
+                      <button className="flex items-center justify-between w-full">
+                        <span className="text-gray-700">Categories</span>
+                        <ChevronDown className="h-4 w-4" />
+                      </button>
+                      <div className="pl-4 space-y-2">
+                        {categories.map((category) => (
+                          <Link
+                            key={category.id}
+                            to={`/category/${category.id}`}
+                            className="block text-gray-600 hover:text-emerald-600"
+                          >
+                            {category.name}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                    <Link
+                      to="/contact"
+                      className="block text-gray-700 hover:text-emerald-600"
+                    >
+                      Contact
+                    </Link>
+                    <Link
+                      to="/about"
+                      className="block text-gray-700 hover:text-emerald-600"
+                    >
+                      About
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Registration Modal */}
+            <AnimatePresence>
+              {showRegister && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center"
+                >
+                  <motion.div
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    exit={{ scale: 0.95 }}
+                    className="bg-white rounded-xl p-8 max-w-md w-full mx-4"
+                  >
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">
+                      Join Our Farm Community
+                    </h2>
+                    <div className="space-y-4">
+                      <motion.button
+                        onClick={() => {
+                          navigate("/signup/buyer");
+                          setShowRegister(false);
+                        }}
+                        whileHover={{ scale: 1.02 }}
+                        className="w-full py-3 bg-gradient-to-r from-green-600 to-teal-600 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow"
+                      >
+                        Continue as Buyer
+                      </motion.button>
+                      <motion.button
+                        onClick={() => {
+                          navigate("/signup/seller");
+                          setShowRegister(false);
+                        }}
+                        whileHover={{ scale: 1.02 }}
+                        className="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white rounded-xl font-semibold hover:shadow-lg transition-shadow"
+                      >
+                        Continue as Seller
+                      </motion.button>
+                    </div>
+                    <button
+                      onClick={() => setShowRegister(false)}
+                      className="mt-4 text-gray-500 hover:text-gray-700 text-sm"
+                    >
+                      Cancel
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </header>
       </motion.div>
-    </header>
+    </>
   );
 };
 

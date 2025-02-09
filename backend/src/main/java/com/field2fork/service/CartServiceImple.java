@@ -1,6 +1,7 @@
 package com.field2fork.service;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -173,8 +174,18 @@ public class CartServiceImple implements CartService {
 	            orderItem.setQuantity(cartItem.getQuantity());
 	            orderItem.setPrice(cartItem.getPrice());
 	            orderItems.add(orderItem);
-	            totalAmount = totalAmount.add(cartItem.getPrice());
+	        
+	            // Calculate item total
+	            BigDecimal itemTotal = cartItem.getPrice().multiply(new BigDecimal(cartItem.getQuantity()));
+	            totalAmount = totalAmount.add(itemTotal);
 	        }
+	         totalAmount = totalAmount.add(totalAmount.multiply(new BigDecimal("0.10"))); // Adding 10% tax
+
+	         // Round off the total amount to 2 decimal places
+     	     totalAmount = totalAmount.setScale(2, RoundingMode.HALF_UP);
+ 
+	          // Print the total amount
+	        System.out.println("Total Amount (including tax): " + totalAmount);
 	        order.setOrderItems(orderItems);
 	        order.setTotalAmount(totalAmount);
 	        
