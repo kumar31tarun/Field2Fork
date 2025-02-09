@@ -10,5 +10,7 @@ import com.field2fork.pojos.ProductCategory;
 public interface ProductDao extends JpaRepository<Product, Long>{
 	
 	List<Product> findByCategory(ProductCategory category);
+	
+	long countByActiveStatus(boolean activeStatus);
  
 }

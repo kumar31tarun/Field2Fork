@@ -1,5 +1,5 @@
-import Header from "../components/Header";
-import Navbar from "../components/Navbar";
+
+import Header from "../components/Header/Header";
 //import OfferCard from "../components/OfferCard";
 import WelcomeCard from "../components/WelcomeCard";
 import BannerCard from "../components/BannerCard";
@@ -13,7 +13,6 @@ const Home = () => {
   return (
     <div>
       <Header />
-      <Navbar />
       <WelcomeCard />
       <br/>
       <BannerCard/>

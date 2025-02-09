@@ -1,44 +1,30 @@
 package com.field2fork.pojos;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
+import jakarta.persistence.*;
+import lombok.*;
 
 @Entity
-@Setter
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString(callSuper = true, exclude = {"product"})
-@EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@EqualsAndHashCode
 @Table(name = "product_images")
-public class ProductImage extends BaseEntity {
-	
-	@Id
-	@Column(name = "image_id") 
+public class ProductImage {
+
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id")
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY) // Lazy loading for better performance
     @JoinColumn(name = "product_id", nullable = false)
+    @ToString.Exclude // Avoid circular references in toString()
     private Product product;
-
-    @Lob
-    @Column(nullable = false)
-    private byte[] imageData;
-
     
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "image_data", columnDefinition = "LONGBLOB", nullable = false)
+    private byte[] imageData;
 }

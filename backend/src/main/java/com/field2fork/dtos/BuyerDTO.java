@@ -18,4 +18,5 @@ public class BuyerDTO {
     private String email;
     private String contactNumber;
     private String address;
+    private Boolean activeStatus;
 }
