@@ -132,13 +132,13 @@ const Header = () => {
                     Shop
                   </Link>
                   <Link
-                    to="/contact"
+                    to="/contactus"
                     className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
                   >
                     Contact
                   </Link>
                   <Link
-                    to="/about"
+                    to="/aboutus"
                     className="text-gray-600 hover:text-emerald-600 transition-colors font-medium"
                   >
                     About

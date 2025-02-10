@@ -77,32 +77,18 @@ public class ProductServiceImple implements ProductService {
 	}
 
 	@Override
-	public ApiResponse updateProductDetails(ProductRequestDTO dto, Long product_id) {
-	    // Retrieve the existing product.
-	    Product productEnt = productDao.findById(product_id)
-	            .orElseThrow(() -> new ResourceNotFoundException("Invalid Product ID!!!"));
-	    
-	    // Verify that the product belongs to the seller attempting the update.
-	    // Here, we compare the existing product's user id with the one sent in the DTO.
-	    // You can also compare with the currently authenticated seller's id.
-	    if (!productEnt.getUser().getId().equals(dto.getUserId())) {
-	        throw new RuntimeException("Unauthorized: You cannot update a product that does not belong to you.");
-	    }
-	    
-	    // Update only the allowed fields.
-	    productEnt.setName(dto.getName());
-	    productEnt.setDescription(dto.getDescription());
-	    productEnt.setPricePerUnit(dto.getPricePerUnit());
-	    productEnt.setStockQuantity(dto.getStockQuantity());
-	    productEnt.setStatus(dto.getStatus());
-	    productEnt.setCategory(dto.getCategory());
-	    
-	    // Do NOT update the owner (user); this ensures the product remains tied to the same seller.
-	    productDao.save(productEnt);
-	    
-	    return new ApiResponse("Product updated!");
+	public ApiResponse updateProductDetails(ProductRequestDTO dto,Long product_id) {
+		// TODO Auto-generated method stub
+		String mesg = "Product Updation Failed - invalid product ID";
+		// validate
+		Product ProductEnt = productDao.findById(product_id)
+				.orElseThrow(() -> new ResourceNotFoundException("Invalid Product ID!!!"));
+		// dto --> entity
+		modelMapper.map(dto, ProductEnt);
+		productDao.save(ProductEnt);
+		mesg = "Product updated !";
+		return new ApiResponse(mesg);
 	}
-
 
 	@Override
 	public ApiResponse restoreProduct(Long product_id) {
@@ -122,33 +108,14 @@ public class ProductServiceImple implements ProductService {
 	}
 
 	@Override
-	public ProductRespDTO getProductById(Long product_id) {
-	    // Retrieve the product or throw an exception if not found
-	    Product product = productDao.findById(product_id)
-	            .orElseThrow(() -> new ResourceNotFoundException("Invalid Product ID!"));
-	    
-	    // Manually map fields from product to the DTO
-	    ProductRespDTO dto = new ProductRespDTO();
-	    dto.setId(product.getId());
-	    dto.setName(product.getName());
-	    dto.setDescription(product.getDescription());
-	    dto.setPricePerUnit(product.getPricePerUnit());
-	    dto.setStockQuantity(product.getStockQuantity());
-	    dto.setStatus(product.getStatus());
-	    dto.setCategory(product.getCategory());
-	    dto.setActiveStatus(product.getActiveStatus());
-	    
-	    // Ensure the associated user is loaded (if lazy, you may need a join fetch or to initialize it)
-	    // For now, we assume that product.getUser() is available.
-	    if (product.getUser() != null) {
-	        dto.setUserId(product.getUser().getId());
-	    } else {
-	        dto.setUserId(null);
-	    }
-	    
-	    return dto;
+	public List<ProductRespDTO> getProductById(Long product_id) {
+		if(productDao.existsById(product_id)) {	
+		return productDao.findById(product_id).stream()
+				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
+				.collect(Collectors.toList());
+		}
+		return null;
 	}
-
 
 	@Override
 	public List<ProductRespDTO> getProductsByCategory(String category) {
@@ -157,6 +124,7 @@ public class ProductServiceImple implements ProductService {
 			
 		return productDao.findByCategory(category_name)
 				.stream()
+				.filter(product -> product.getActiveStatus())
 				.map(Product -> modelMapper.map(Product, ProductRespDTO.class))
 				.collect(Collectors.toList());
 		}
@@ -165,27 +133,6 @@ public class ProductServiceImple implements ProductService {
 			throw new ResourceNotFoundException("Invalid Category "+ category);
 		}
 	}
-	
-	@Override
-	public List<ProductRespDTO> getProductsBySeller(Long sellerId) {
-	    return productDao.findByUserId(sellerId)
-	        .stream()
-	        .map(product -> {
-	            ProductRespDTO dto = new ProductRespDTO();
-	            dto.setId(product.getId());
-	            dto.setName(product.getName());
-	            dto.setDescription(product.getDescription());
-	            dto.setPricePerUnit(product.getPricePerUnit());
-	            dto.setStockQuantity(product.getStockQuantity());
-	            dto.setStatus(product.getStatus());
-	            dto.setCategory(product.getCategory());
-	            dto.setActiveStatus(product.getActiveStatus());
-	            dto.setUserId(product.getUser() != null ? product.getUser().getId() : null);
-	            return dto;
-	        })
-	        .collect(Collectors.toList());
-	}
-
 
 
 }
