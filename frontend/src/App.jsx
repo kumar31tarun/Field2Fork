@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
-import Shopgrid from "./pages/Shopgrid";
 import RegistrationForm from "./components/Header/Seller_SignUp";
 import LoginForm from "./components/Header/LoginForm";
 import Seller_SignUp from "./components/Header/Seller_SignUp";
@@ -24,7 +23,6 @@ const App = () => {
         <Route path="/" element={<Home />} />{" "}
         <Route path="/contactus" element={<ContactUs />} />
         <Route path="/aboutus" element={<AboutUs />} />
-        <Route path="/shopgrid" element={<Shopgrid />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<RegistrationForm />} />
         <Route path="/signup/seller" element={<Seller_SignUp />} />
