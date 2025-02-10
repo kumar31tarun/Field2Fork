@@ -14,6 +14,7 @@ import Checkout from "./components/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
 import ShopByCategory from "./components/ShopByCategory";
 import SellerDashboard from "./pages/SellerDashboard";
+import OrdersPage from "./components/Orders";
 
 const App = () => {
   return (
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/category/:categoryName" element={<ShopByCategory />} />
         <Route path="/seller/*" element={<SellerDashboard />} />
+        <Route path="/orders" element={<OrdersPage />} />
         {/* Use element prop instead of component */}
         {/* Add more routes as needed */}
       </Routes>
