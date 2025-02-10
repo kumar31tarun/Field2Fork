@@ -13,6 +13,7 @@ import Cart from "./pages/Cart";
 import Checkout from "./components/Checkout";
 import AdminDashboard from "./pages/AdminDashboard";
 import ShopByCategory from "./components/ShopByCategory";
+import SellerDashboard from "./pages/SellerDashboard";
 
 const App = () => {
   return (
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/category/:categoryName" element={<ShopByCategory />} />
+        <Route path="/seller/*" element={<SellerDashboard />} />
         {/* Use element prop instead of component */}
         {/* Add more routes as needed */}
       </Routes>

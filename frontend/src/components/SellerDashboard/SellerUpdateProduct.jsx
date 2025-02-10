@@ -6,7 +6,6 @@ import {
   updateProductDetails,
   fetchCategories,
 } from "../../api/productService";
-
 const SellerUpdateProduct = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
@@ -22,7 +21,6 @@ const SellerUpdateProduct = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
   useEffect(() => {
     const loadCategories = async () => {
       try {
@@ -32,12 +30,10 @@ const SellerUpdateProduct = () => {
         console.error("Error loading categories:", err);
       }
     };
-
     const loadProduct = async () => {
       try {
         const product = await getProductById(productId);
         console.log("Fetched product:", product); // Debug log to inspect structure
-
         if (product) {
           // Use nested user object if present; otherwise fallback to product.userId.
           const productOwnerId = product.user
@@ -68,16 +64,13 @@ const SellerUpdateProduct = () => {
         setLoading(false);
       }
     };
-
     loadCategories();
     loadProduct();
   }, [productId, sellerId]);
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const productData = {
@@ -86,7 +79,6 @@ const SellerUpdateProduct = () => {
       stockQuantity: parseInt(formData.stockQuantity, 10),
       userId: sellerId, // Ensure the updated product still belongs to the current seller.
     };
-
     try {
       await updateProductDetails(productData, productId);
       navigate("/seller/products");
@@ -95,10 +87,8 @@ const SellerUpdateProduct = () => {
       setError("Failed to update product. Please try again.");
     }
   };
-
   if (loading) return <p className="text-center">Loading product details...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;
-
   return (
     <div className="max-w-2xl mx-auto bg-white p-8 rounded-xl shadow-lg mt-10">
       <h2 className="text-3xl font-bold text-center mb-6">
@@ -232,5 +222,4 @@ const SellerUpdateProduct = () => {
     </div>
   );
 };
-
 export default SellerUpdateProduct;

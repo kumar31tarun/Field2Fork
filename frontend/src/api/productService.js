@@ -45,3 +45,54 @@ export const restoreProduct = async (productId) => {
     console.error("Error restoring product:", error);
   }
 };
+
+export const fetchProductsBySeller = async (sellerId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/seller/${sellerId}`);
+    if (!response.ok) throw new Error("Failed to fetch products for seller");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching products by seller:", error);
+    return [];
+  }
+};
+
+export const addNewProduct = async (productData) => {
+  try {
+    const response = await fetch(API_BASE_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productData),
+    });
+    if (!response.ok) throw new Error("Failed to add product");
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding product:", error);
+    throw error;
+  }
+};
+export const updateProductDetails = async (productData, productId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/${productId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(productData),
+    });
+    if (!response.ok) throw new Error("Failed to update product");
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating product:", error);
+    throw error;
+  }
+};
+
+export const fetchCategories = async () => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/categories`);
+    if (!response.ok) throw new Error("Failed to fetch categories");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+};
