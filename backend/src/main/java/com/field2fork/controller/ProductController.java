@@ -129,6 +129,7 @@ public class ProductController {
 	 * URL - http://host:port/products/{id}
 	 * Method - GET
 	 */
+	@GetMapping("/{product_id}")
 	public ResponseEntity<?> getProductById(@PathVariable Long product_id) {
 	    System.out.println("in get product by id");
 	    ProductRespDTO product = prodService.getProductById(product_id);
