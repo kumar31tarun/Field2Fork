@@ -42,6 +42,8 @@ public interface UserDao extends JpaRepository<User, Long> {
 	    @Query("SELECT COUNT(u) FROM User u WHERE u.role = :role AND u.activeStatus = :activeStatus")
 	    long countByRoleAndActiveStatus(Role role, boolean activeStatus);
 
+	Optional<User> findByEmail(String email);
+
 }
 
 

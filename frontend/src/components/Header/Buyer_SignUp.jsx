@@ -34,24 +34,24 @@ const Buyer_SignUp = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-200 to-teal-500 p-6">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-green-200 to-emerald-500 p-6">
       <div className="w-full max-w-md p-8 bg-white shadow-xl rounded-2xl">
         <motion.h1
-          className="text-3xl font-bold text-center text-teal-500 mb-4"
+          className="text-3xl font-bold text-center text-emerald-500 mb-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           Join Field2Fork
         </motion.h1>
-        <h2 className="text-2xl font-semibold text-center text-teal-700">
+        <h2 className="text-2xl font-semibold text-center text-emerald-700">
           Buyer SignUp
         </h2>
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}
         <form onSubmit={handleRegister} className="mt-6">
           <div className="relative mb-4">
             <User
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-500"
               size={20}
             />
             <input
@@ -60,12 +60,12 @@ const Buyer_SignUp = () => {
               placeholder="Username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full pl-12 p-3 border border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
+              className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
             />
           </div>
           <div className="relative mb-4">
             <Mail
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-500"
               size={20}
             />
             <input
@@ -74,12 +74,12 @@ const Buyer_SignUp = () => {
               placeholder="Email"
               value={formData.email}
               onChange={handleChange}
-              className="w-full pl-12 p-3 border border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
+              className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
             />
           </div>
           <div className="relative mb-4">
             <Phone
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-500"
               size={20}
             />
             <input
@@ -88,12 +88,12 @@ const Buyer_SignUp = () => {
               placeholder="Contact Number"
               value={formData.contactNumber}
               onChange={handleChange}
-              className="w-full pl-12 p-3 border border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
+              className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
             />
           </div>
           <div className="relative mb-4">
             <MapPin
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-teal-500"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-500"
               size={20}
             />
             <input
@@ -102,12 +102,12 @@ const Buyer_SignUp = () => {
               placeholder="Address"
               value={formData.address}
               onChange={handleChange}
-              className="w-full pl-12 p-3 border border-teal-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none shadow-sm"
+              className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
             />
           </div>
           <button
             type="submit"
-            className="w-full p-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition duration-200 shadow-md"
+            className="w-full p-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition duration-200 shadow-md"
           >
             Register
           </button>
@@ -115,7 +115,7 @@ const Buyer_SignUp = () => {
         <div className="mt-6 text-center text-gray-600">or sign up with</div>
         <div className="mt-4 flex gap-3">
           <button
-            className="flex items-center justify-center w-1/2 p-3 border border-teal-400 rounded-lg hover:bg-teal-50 transition shadow-sm"
+            className="flex items-center justify-center w-1/2 p-3 border border-emerald-400 rounded-lg hover:bg-emerald-50 transition shadow-sm"
             aria-label="Sign up with Google"
           >
             <FontAwesomeIcon
@@ -126,7 +126,7 @@ const Buyer_SignUp = () => {
             Google
           </button>
           <button
-            className="flex items-center justify-center w-1/2 p-3 border border-teal-400 rounded-lg hover:bg-teal-50 transition shadow-sm"
+            className="flex items-center justify-center w-1/2 p-3 border border-emerald-400 rounded-lg hover:bg-emerald-50 transition shadow-sm"
             aria-label="Sign up with GitHub"
           >
             <Github size={20} className="mr-2 text-gray-800" />
@@ -137,7 +137,7 @@ const Buyer_SignUp = () => {
           Already have an account?{" "}
           <Link
             to="/login"
-            className="text-teal-600 font-semibold hover:underline"
+            className="text-emerald-600 font-semibold hover:underline"
           >
             Sign in
           </Link>
