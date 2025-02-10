@@ -27,7 +27,8 @@ const ProductTable = () => {
     }
     const product = await getProductById(searchId);
     if (product) {
-      setProducts(product);
+      // Wrap the single product object in an array
+      setProducts([product]);
     } else {
       alert("Product not found");
     }

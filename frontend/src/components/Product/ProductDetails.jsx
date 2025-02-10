@@ -21,6 +21,7 @@ import {
   fetchProductById,
   fetchReviewsByProductId,
 } from "../../api/DuplicatereviewsService";
+import { getProductById } from "../../api/productService";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -37,8 +38,10 @@ const ProductDetails = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const data = await fetchProductById(id);
-        setProduct(data[0]);
+        const data = await getProductById(id);
+        console.log(data);
+        setProduct(data);
+        console.log(product);
       } catch (err) {
         setError(err.message);
       } finally {

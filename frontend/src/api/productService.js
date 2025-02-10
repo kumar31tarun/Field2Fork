@@ -15,7 +15,12 @@ export const getProductById = async (productId) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${productId}`);
     if (!response.ok) throw new Error("Product not found");
-    return await response.json();
+
+    // Read and parse the JSON data once.
+    const data = await response.json();
+    console.log("Product data:", data); // log the parsed data
+
+    return data;
   } catch (error) {
     console.error("Error fetching product by ID:", error);
     return null;
