@@ -239,9 +239,7 @@ const CartTable = ({ cartId }) => {
           </div>
           <div className="flex justify-between text-gray-800/90">
             <span>Price:</span>
-            <span className="font-medium">
-              ₹{summary.totalQuantity.toFixed(2)}
-            </span>
+            <span className="font-medium">₹{summary.totalQuantity}</span>
           </div>
           <div className="flex justify-between text-gray-800/90">
             <span>Farm Tax:</span>

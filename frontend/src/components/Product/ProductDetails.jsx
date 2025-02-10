@@ -15,13 +15,9 @@ import {
 import { motion } from "framer-motion";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import {
-  addReview,
-  addToCart,
-  fetchProductById,
-  fetchReviewsByProductId,
-} from "../../api/DuplicatereviewsService";
 import { getProductById } from "../../api/productService";
+import { addReview, fetchReviewByProductId } from "../../api/reviewService";
+import { addToCart } from "../../api/cartService";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -51,7 +47,7 @@ const ProductDetails = () => {
 
     const fetchReviews = async () => {
       try {
-        const data = await fetchReviewsByProductId(id);
+        const data = await fetchReviewByProductId(id);
         setReviews(data);
       } catch (err) {
         console.error("Error fetching reviews:", err);
@@ -93,7 +89,7 @@ const ProductDetails = () => {
       const response = await addReview(reviewData);
       if (response === 201) {
         // Fetch the updated list of reviews after adding a new review
-        const updatedReviews = await fetchReviewsByProductId(id);
+        const updatedReviews = await fetchReviewByProductId(id);
         setReviews(updatedReviews);
         setNewReview(""); // Clear the input field
         setRating(0); // Reset the rating

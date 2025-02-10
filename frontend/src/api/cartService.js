@@ -3,11 +3,13 @@ const API_BASE_URL = "http://localhost:8080/cart"; // Replace with actual backen
 export const getCartDetailsById = async (id) => {
   try {
     const response = await fetch(`${API_BASE_URL}/${id}`);
+    console.log(response);
     if (!response.ok)
       throw new Error(
         `Failed to fetch cart details (Status: ${response.status})`
       );
-    return await response.json();
+    const data = await response.json();
+    return data;
   } catch (error) {
     console.error("Error fetching cart:", error);
     return null;
@@ -84,5 +86,23 @@ export const checkoutCart = async (cartId) => {
   } catch (error) {
     console.error("Error during checkout:", error);
     return null;
+  }
+};
+export const addToCart = async (cartRequest) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/add`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(cartRequest),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error adding to cart:", error);
+    throw error; // Rethrow the error to be handled in the component
   }
 };

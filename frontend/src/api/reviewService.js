@@ -35,3 +35,21 @@ export const fetchReviewByProductId = async (productId) => {
     return [];
   }
 };
+
+export const addReview = async (reviewData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(reviewData),
+    });
+
+    if (!response.ok) {
+      throw new Error("Error adding review");
+    }
+    return await 201;
+  } catch (error) {
+    console.error("Error adding review:", error);
+    throw error; // Rethrow the error to be handled in the component
+  }
+};

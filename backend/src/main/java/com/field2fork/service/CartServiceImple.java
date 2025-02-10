@@ -125,7 +125,7 @@ public class CartServiceImple implements CartService {
             	 // Update quantity if product exists
                 CartItem cartItem = existingCartItem.get();
                 cartItem.setQuantity(cartItem.getQuantity() + itemDTO.getQuantity());
-                cartItem.setPrice(product.getPricePerUnit().multiply(new BigDecimal(cartItem.getQuantity())));
+                cartItem.setPrice(product.getPricePerUnit());
             } else {
             	// Add new product to cart
                 CartItem cartItem = modelMapper.map(itemDTO, CartItem.class);
