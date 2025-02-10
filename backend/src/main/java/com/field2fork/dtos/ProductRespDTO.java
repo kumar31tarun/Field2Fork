@@ -23,20 +23,22 @@ public class ProductRespDTO {
     private ProductStatus status;
     private ProductCategory category; 
     private Boolean activeStatus ;
+    private Long userId; // New field to store the seller's id
     
     
-	public ProductRespDTO(Long id,String name, String description, BigDecimal pricePerUnit, Integer stockQuantity,
-			ProductStatus status, ProductCategory category) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.pricePerUnit = pricePerUnit;
-		this.stockQuantity = stockQuantity;
-		this.status = status;
-		this.category = category;
-	}
-    
+    public ProductRespDTO(Long id, String name, String description, BigDecimal pricePerUnit,
+            Integer stockQuantity, ProductStatus status, ProductCategory category, Long userId) {
+super();
+this.id = id;
+this.name = name;
+this.description = description;
+this.pricePerUnit = pricePerUnit;
+this.stockQuantity = stockQuantity;
+this.status = status;
+this.category = category;
+this.userId = userId;
+}
+
     
     
 
