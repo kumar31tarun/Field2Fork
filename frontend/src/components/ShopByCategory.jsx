@@ -1,13 +1,10 @@
 import React from "react";
-
 import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ShoppingCart,
   Star,
   Wheat,
-  Leaf,
   Sprout,
   Milk,
   Beef,
@@ -26,7 +23,11 @@ import {
 } from "lucide-react";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
-import { fetchProducts } from "./../api/productService";
+import {
+  fetchProducts,
+  fetchProductsByCategories,
+} from "./../api/productService";
+import { fetchProductImages } from "./../api/productImageService";
 
 const ShopByCategory = () => {
   const { categoryName } = useParams();
@@ -56,16 +57,29 @@ const ShopByCategory = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Transform the categoryName to the desired format
-        const formattedCategoryName = categoryName
-          .toLowerCase()
-          .replace(/\s+/g, "_");
-        const response = await fetch(
-          `http://localhost:8080/products/category?category=${formattedCategoryName}`
+        const data = await fetchProductsByCategories(categoryName);
+        // Fetch images for each product
+        const productsWithImages = await Promise.all(
+          data.map(async (product) => {
+            try {
+              const images = await fetchProductImages(product.id);
+              return {
+                ...product,
+                imageUrl:
+                  images.length > 0 ? images[0].imageUrl : "placeholder.jpg",
+              };
+            } catch (error) {
+              console.error(
+                `Error fetching images for product ${product.id}:`,
+                error
+              );
+              return { ...product, imageUrl: "placeholder.jpg" };
+            }
+          })
         );
-        if (!response.ok) throw new Error("Failed to fetch products");
-        const data = await response.json();
-        setProducts(data);
+
+        setProducts(productsWithImages);
+
         setError(null);
       } catch (err) {
         setError(err.message);
@@ -76,6 +90,19 @@ const ShopByCategory = () => {
     };
     fetchProducts();
   }, [categoryName]);
+  // useEffect(() => {
+  //   const fetchProductImagesById = async () => {
+  //     try {
+  //       const data = await fetchProductImages(id);
+  //       setProductImages(data);
+  //     } catch (error) {
+  //       console.error(`Error fetching images for product ${id}:`, error);
+  //       imagesMap[product.id] = null;
+  //     }
+  //   };
+
+  //   if (id) fetchProductImagesById();
+  // }, [id]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-green-50 to-white">

@@ -121,3 +121,60 @@ export const restoreUser = async (id) => {
     throw error; // Rethrow the error for handling in the component
   }
 };
+
+export const registerBuyer = async (formData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/buyers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        ...formData,
+        role: "BUYER",
+        location: formData.address,
+        rating: 0.1,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed");
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const registerSeller = async (formData) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/sellers/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        password: formData.password,
+        email: formData.email,
+        role: "SELLER",
+        contactNumber: formData.contactNumber,
+        location: formData.address,
+        rating: 0.1,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Registration failed");
+    }
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};

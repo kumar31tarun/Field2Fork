@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.field2fork.custom_exception.ResourceNotFoundException;
 import com.field2fork.dao.CartDao;
 import com.field2fork.dao.OrderDao;
+import com.field2fork.dao.OrderItemDao;
 import com.field2fork.dao.ProductDao;
 import com.field2fork.dao.UserDao;
 import com.field2fork.dtos.ApiResponse;
@@ -52,6 +53,8 @@ public class CartServiceImple implements CartService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	private OrderItemDao orderItemDao;
 	
     @Autowired
     private ModelMapper modelMapper;
@@ -191,6 +194,10 @@ public class CartServiceImple implements CartService {
 	        
 	        // Save the order
 	        orderDao.save(order);
+//	        
+//	        for (OrderItem orderItem : orderItems) {
+//	            orderItemDao.save(orderItem); // Assuming you have an orderItemDao to save order items
+//	        }
 	        
 	     // Now, create a Razorpay order for this order.
 	        String receiptId = "order_rcptid_" + order.getId();

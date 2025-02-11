@@ -101,3 +101,20 @@ export const fetchCategories = async () => {
     return [];
   }
 };
+
+export const fetchProductsByCategories = async (categoryName) => {
+  try {
+    // Transform the categoryName to the desired format
+    const formattedCategoryName = categoryName
+      .toLowerCase()
+      .replace(/\s+/g, "_");
+    const response = await fetch(
+      `${API_BASE_URL}/category?category=${formattedCategoryName}`
+    );
+    if (!response.ok) throw new Error("Failed to fetch categories");
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    return [];
+  }
+};

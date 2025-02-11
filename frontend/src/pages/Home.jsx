@@ -1,123 +1,3 @@
-// import Header from "../components/Header/Header";
-// import BannerCard from "../components/BannerCard";
-// import ShopByCategory from "../components/ShopByCategory";
-// import Footer from "../components/Footer/Footer";
-// import { Truck, BadgePercent, RefreshCw, Gift } from "lucide-react";
-// import { motion } from "framer-motion";
-
-// const Home = () => {
-//   const features = [
-//     {
-//       icon: Truck,
-//       title: "10 mins grocery now",
-//       description:
-//         "Get your order delivered to your doorstep at the earliest from Field2fork pickup stores near you.",
-//     },
-//     {
-//       icon: BadgePercent,
-//       title: "Best Prices & Offers",
-//       description:
-//         "Cheaper prices than your local supermarket, great cashback offers to top it off.",
-//     },
-//     {
-//       icon: Gift,
-//       title: "Wide Assortment",
-//       description:
-//         "Choose from 5000+ products across vegetables, fruits, grains, bakery & other categories.",
-//     },
-//     {
-//       icon: RefreshCw,
-//       title: "Easy Returns",
-//       description:
-//         "Not satisfied with a product? Return it at the doorstep & get a refund within hours.",
-//     },
-//   ];
-//   return (
-//     <div>
-//       <Header />
-//       <div
-//         className="flex flex-col items-start justify-center h-screen bg-cover bg-center pl-16"
-//         style={{
-//           backgroundImage: `url(/Homepage1.jpg)`,
-//           backgroundSize: "cover",
-//           backgroundPosition: "center",
-//           backgroundRepeat: "no-repeat",
-//           width: "100vw",
-//           height: "100vh",
-//         }}
-//       >
-//         {/* Heading */}
-//         <h1 className="text-7xl font-bold text-black">
-//           <span className="text-green-600 block mt-5">Organic Foods</span>
-//           <span className="text-black block mt-2">at your Doorsteps</span>
-//         </h1>
-
-//         {/* Description */}
-//         <p className="text-gray-700 text-lg mt-4 max-w-md">
-//           Savor fresh, organic produce delivered right to your home with ease.
-//         </p>
-
-//         {/* Buttons */}
-//         <div className="mt-6 flex gap-4 self-start">
-//           <button className="bg-green-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-green-700 transition">
-//             START SHOPPING
-//           </button>
-//           <button className="bg-black text-white px-6 py-3 rounded-lg text-lg hover:bg-gray-800 transition">
-//             JOIN NOW
-//           </button>
-//         </div>
-
-//         {/* Statistics */}
-//         <div className="mt-10 flex gap-12 text-black text-xl font-semibold self-start">
-//           <div>
-//             <h2 className="text-3xl text-gray-400">14k+</h2>
-//             <p className="text-gray-700 text-sm">PRODUCT VARIETIES</p>
-//           </div>
-//           <div>
-//             <h2 className="text-3xl text-gray-400">50k+</h2>
-//             <p className="text-gray-700 text-sm">HAPPY CUSTOMERS</p>
-//           </div>
-//           <div>
-//             <h2 className="text-3xl text-gray-400">10+</h2>
-//             <p className="text-gray-700 text-sm">FARM LOCATIONS</p>
-//           </div>
-//         </div>
-//       </div>
-//       <br />
-//       <BannerCard />
-//       <br />
-//       {/* <RenderOfferCard /> */}
-//       <ShopByCategory />
-//       {/* <FruitsAndVegetable /> */}
-//       <br />
-//       <hr className="border-t border-gray-300 my-6" />
-//       {/* Features Section*/}
-//       <div className="bg-white container mx-auto px-4 py-8">
-//         <motion.div className="grid grid-cols-1 lg:grid-cols-4 gap-6 mb-16">
-//           {features.map((feature, index) => (
-//             <motion.div
-//               key={index}
-//               className="p-6 bg-emerald-100 rounded-xl shadow-md hover:bg-emerald-200 transition-all duration-300 hover:-translate-y-1 border border-gray-300"
-//               whileHover={{ scale: 1.02 }}
-//             >
-//               <feature.icon className="w-12 h-12 mb-4 p-2 text-emerald-600" />
-//               <h3 className="text-xl font-semibold mb-3 text-black">
-//                 {feature.title}
-//               </h3>
-//               <p className="text-gray-700 leading-relaxed">
-//                 {feature.description}
-//               </p>
-//             </motion.div>
-//           ))}
-//         </motion.div>
-//       </div>
-//       <Footer />
-//     </div>
-//   );
-// };
-
-// export default Home;
-
 import { AnimatePresence, motion } from "framer-motion";
 import {
   Truck,
@@ -132,6 +12,7 @@ import {
   Heart,
   Star,
   Leaf,
+  Package,
   ChevronDown,
   Users,
 } from "lucide-react";
@@ -140,6 +21,8 @@ import Header from "../components/Header/Header";
 import Footer from "./../components/Footer/Footer";
 import { fetchCategories } from "../api/headerService";
 import { useNavigate } from "react-router-dom";
+import { fetchProducts } from "../api/productService";
+import { fetchProductImages } from "../api/productImageService";
 
 const Home = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -148,6 +31,8 @@ const Home = () => {
   const [allProducts, setAllProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(true);
   const [productsError, setProductsError] = useState(null);
+  const [productImages, setProductImages] = useState({});
+
   const navigate = useNavigate();
   const categoryImages = {
     FRUITS:
@@ -184,10 +69,8 @@ const Home = () => {
   useEffect(() => {
     const fetchAllProducts = async () => {
       try {
-        const response = await fetch("http://localhost:8080/products");
-        if (!response.ok) throw new Error("Failed to fetch products");
-        const data = await response.json();
-        setAllProducts(data);
+        const response = await fetchProducts();
+        setAllProducts(response);
       } catch (err) {
         setProductsError(err.message);
       } finally {
@@ -288,6 +171,33 @@ const Home = () => {
   const handleAddToCart = (productId) => {
     // Add to cart logic
   };
+
+  useEffect(() => {
+    const fetchProductImagesById = async () => {
+      const imagesMap = {};
+
+      await Promise.all(
+        allProducts.map(async (product) => {
+          try {
+            const images = await fetchProductImages(product.id);
+            imagesMap[product.id] =
+              images.length > 0 ? images[0].imageUrl : null;
+          } catch (error) {
+            console.error(
+              `Error fetching images for product ${product.id}:`,
+              error
+            );
+            imagesMap[product.id] = null;
+          }
+        })
+      );
+
+      setProductImages(imagesMap);
+    };
+
+    if (allProducts.length > 0) fetchProductImagesById();
+  }, [allProducts]);
+
   return (
     <div className="bg-slate-50">
       <Header />
@@ -597,7 +507,17 @@ const Home = () => {
                       </span>
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/20 via-transparent to-transparent" />
-                    <div className="h-full w-full bg-gray-100 animate-pulse" />
+                    {productImages[product.id] ? (
+                      <img
+                        src={productImages[product.id]}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-gray-100 flex items-center justify-center text-gray-400">
+                        No Image
+                      </div>
+                    )}
                   </div>
 
                   <div className="p-4">

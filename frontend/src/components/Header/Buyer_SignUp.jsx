@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
-import { Mail, User, Phone, MapPin, Github } from "lucide-react";
+import { Mail, User, Phone, MapPin, Github, Lock } from "lucide-react";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { registerBuyer } from "./../../api/userService";
 
 const Buyer_SignUp = () => {
   const [formData, setFormData] = useState({
@@ -13,24 +14,25 @@ const Buyer_SignUp = () => {
     address: "",
   });
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    if (
-      !formData.username ||
-      !formData.email ||
-      !formData.contactNumber ||
-      !formData.address
-    ) {
+    if (!Object.values(formData).every((value) => value.trim())) {
       setError("Please fill in all fields.");
       return;
     }
-    console.log("Registering with", formData);
-    setError("");
+
+    try {
+      await registerBuyer(formData);
+      navigate("/login");
+    } catch (err) {
+      setError(err.message || "Registration failed. Please try again.");
+    }
   };
 
   return (
@@ -101,6 +103,20 @@ const Buyer_SignUp = () => {
               name="address"
               placeholder="Address"
               value={formData.address}
+              onChange={handleChange}
+              className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
+            />
+          </div>
+          <div className="relative mb-4">
+            <Lock
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-emerald-500"
+              size={20}
+            />
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              value={formData.password}
               onChange={handleChange}
               className="w-full pl-12 p-3 border border-emerald-300 rounded-lg focus:ring-2 focus:ring-emerald-500 outline-none shadow-sm"
             />

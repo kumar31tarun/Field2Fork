@@ -18,6 +18,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { getProductById } from "../../api/productService";
 import { addReview, fetchReviewByProductId } from "../../api/reviewService";
 import { addToCart } from "../../api/cartService";
+import { fetchProductImages } from "./../../api/productImageService";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -26,10 +27,12 @@ const ProductDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [images] = useState(["", "", ""]);
   const [reviews, setReviews] = useState([]);
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(0);
+  const [productImages, setProductImages] = useState([]);
+  const authData = sessionStorage.getItem("authData");
+  const userId = authData ? JSON.parse(authData).user?.id : null;
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -56,6 +59,19 @@ const ProductDetails = () => {
     fetchProduct();
     fetchReviews();
   }, [id]);
+  useEffect(() => {
+    const fetchProductImagesById = async () => {
+      try {
+        const data = await fetchProductImages(id);
+        setProductImages(data);
+      } catch (error) {
+        console.error(`Error fetching images for product ${id}:`, error);
+        imagesMap[product.id] = null;
+      }
+    };
+
+    if (id) fetchProductImagesById();
+  }, [id]);
 
   const handleAddToCart = async () => {
     const cartItem = {
@@ -64,7 +80,7 @@ const ProductDetails = () => {
     };
 
     const cartRequest = {
-      userId: 1,
+      userId: userId,
       cartItems: [cartItem],
     };
 
@@ -144,6 +160,7 @@ const ProductDetails = () => {
         <p className="text-center text-red-500">{error}</p>
       </motion.div>
     );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -177,11 +194,13 @@ const ProductDetails = () => {
               onMouseLeave={handleMouseLeave}
               style={zoomStyle}
             >
-              <img
-                src={images[selectedImage]}
-                alt={`Product Image ${selectedImage + 1}`}
-                className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
-              />
+              {productImages.length > 0 && (
+                <img
+                  src={productImages[selectedImage].imageUrl}
+                  alt={`Product Image ${selectedImage + 1}`}
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out transform hover:scale-110"
+                />
+              )}
             </motion.div>
             {/* Product Details */}
             <motion.div
@@ -287,7 +306,7 @@ const ProductDetails = () => {
                 More Views
               </h3>
               <div className="flex gap-4 overflow-x-auto pb-4">
-                {images.map((_, index) => (
+                {productImages.map((image, index) => (
                   <motion.button
                     key={index}
                     whileHover={{ scale: 1.05 }}
@@ -300,7 +319,7 @@ const ProductDetails = () => {
                     }`}
                   >
                     <img
-                      src={images[index]}
+                      src={image.imageUrl}
                       alt={`Thumbnail ${index + 1}`}
                       className="w-full h-full object-cover"
                     />
