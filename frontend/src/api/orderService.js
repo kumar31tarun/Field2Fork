@@ -22,6 +22,15 @@ export const fetchOrdersBySeller = async (sellerId) => {
   }
 };
 
+export const fetchOrdersByUserId = async (userId) => {
+  try {
+    const response = await fetch(`${ORDER_API_BASE_URL}/user/${userId}`);
+    if (!response.ok) throw new Error("Failed to fetch orders");
+    return await response.json();
+      } catch (error) {
+    throw error;
+  }
+};
 export const CancelOrderById = async (orderId) => {
   try {
     const response = await fetch(`${ORDER_API_BASE_URL}/${orderId}`, {
@@ -45,12 +54,4 @@ export const fetchOrderItemsByOrderId = async (orderId) => {
   }
 };
 
-export const fetchOrdersByUserId = async (userId) => {
-  try {
-    const response = await fetch(`${ORDER_API_BASE_URL}/user/${userId}`);
-    if (!response.ok) throw new Error("Failed to fetch orders");
-    return await response.json();
-  } catch (error) {
-    throw error;
-  }
-};
+

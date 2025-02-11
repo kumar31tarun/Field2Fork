@@ -223,6 +223,7 @@ export const restoreUser = async (id) => {
     throw error; // Rethrow the error for handling in the component
   }
 };
+
 export const registerBuyer = async (formData) => {
   try {
     const response = await fetch(`${API_BASE_URL}/buyers/register`, {

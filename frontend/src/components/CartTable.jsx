@@ -18,6 +18,8 @@ import {
   checkoutCart,
   deleteCartItem,
 } from "../api/cartService";
+// const authData = sessionStorage.getItem("authData");
+// const cartId = authData ? JSON.parse(authData).user?.id : null;
 
 const CartTable = ({ cartId }) => {
   const [cartItems, setCartItems] = useState([]);
@@ -115,9 +117,12 @@ const CartTable = ({ cartId }) => {
                 <div className="flex gap-5 items-start">
                   <div className="w-28 h-28 bg-gray-100 rounded-xl overflow-hidden border border-gray-300 shadow-inner">
                     <img
-                      src={item.image || "/CartImages/productMissing.png"}
+                      src={`http://localhost:8080/product-images/images/${item.id}`}
                       alt={item.name}
                       className="w-full h-full object-cover scale-[1.01]"
+                      onError={(e) => {
+                        e.target.src = "/CartImages/productMissing.png";
+                      }}
                     />
                   </div>
 

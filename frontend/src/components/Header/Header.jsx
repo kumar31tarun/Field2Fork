@@ -23,14 +23,32 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(0);
   const navigate = useNavigate();
-  const authData = JSON.parse(sessionStorage.getItem("authData"));
-  const userId = authData.user.id;
 
-  // Check for token in sessionStorage on mount
+  const authData = sessionStorage.getItem("authData");
+  const userId = authData ? JSON.parse(authData).user?.id : null;
+
+
   useEffect(() => {
-    const token = sessionStorage.getItem("token");
-    setIsLoggedIn(!!token);
+    const checkAuth = () => {
+      const authData = sessionStorage.getItem("authData");
+      setIsLoggedIn(!!(authData && JSON.parse(authData).token));
+    };
+
+    // Check auth status on mount
+    checkAuth();
+
+    // Add storage event listener
+    window.addEventListener("storage", checkAuth);
+
+    return () => window.removeEventListener("storage", checkAuth);
   }, []);
+
+  // logout handler
+  const handleLogout = () => {
+    sessionStorage.removeItem("authData");
+    setIsLoggedIn(false);
+    navigate("/login");
+  };
 
   useEffect(() => {
     const loadCategories = async () => {
@@ -43,7 +61,6 @@ const Header = () => {
   // Fetch cart items quantity
   useEffect(() => {
     const fetchCartQuantity = async () => {
-      const userId = sessionStorage.getItem("userId"); // Get userId from sessionStorage
       if (userId) {
         const totalQuantity = await fetchCartTotalQuantity(userId);
         console.log("Total Quantity:", totalQuantity); // Debugging
@@ -194,9 +211,9 @@ const Header = () => {
                   ))}
 
                   {/* Auth Section */}
-                  <div className="ml-2">
+                  <div className="relative group ml-2">
                     {isLoggedIn ? (
-                      <div className="relative">
+                      <>
                         <button className="flex items-center space-x-1">
                           <div className="h-8 w-8 rounded-full bg-emerald-100 flex items-center justify-center hover:bg-emerald-200 transition-colors">
                             <User className="h-4 w-4 text-emerald-600" />
@@ -217,7 +234,7 @@ const Header = () => {
                             Logout
                           </button>
                         </div>
-                      </div>
+                      </>
                     ) : (
                       <button
                         onClick={() => setShowRegister(true)}
