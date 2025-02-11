@@ -14,9 +14,20 @@ const OrdersPage = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
+      const authDataStr = sessionStorage.getItem("authData");
+      const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+      // If there's no token, log an error and don't make the request.
+      if (!token) {
+        console.error("No valid token found in session storage.");
+        return;
+      }
       try {
         const response = await fetch(
-          `http://localhost:8080/orders/user/${userId}`
+          `http://localhost:8080/orders/user/${userId}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         if (!response.ok) throw new Error("Failed to fetch orders");
         const data = await response.json();
@@ -32,9 +43,20 @@ const OrdersPage = () => {
   }, []);
 
   const fetchOrderItems = async (orderId) => {
+    const authDataStr = sessionStorage.getItem("authData");
+    const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+    // If there's no token, log an error and don't make the request.
+    if (!token) {
+      console.error("No valid token found in session storage.");
+      return;
+    }
     try {
       const response = await fetch(
-        `http://localhost:8080/orders/${orderId}/items`
+        `http://localhost:8080/orders/${orderId}/items`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       if (!response.ok) throw new Error("Failed to fetch order items");
       const data = await response.json();

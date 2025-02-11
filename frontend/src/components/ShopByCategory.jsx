@@ -55,13 +55,24 @@ const ShopByCategory = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      const authDataStr = sessionStorage.getItem("authData");
+      const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+      // If there's no token, log an error and don't make the request.
+      if (!token) {
+        console.error("No valid token found in session storage.");
+        return;
+      }
       try {
         // Transform the categoryName to the desired format
         const formattedCategoryName = categoryName
           .toLowerCase()
           .replace(/\s+/g, "_");
         const response = await fetch(
-          `http://localhost:8080/products/category?category=${formattedCategoryName}`
+          `http://localhost:8080/products/category?category=${formattedCategoryName}`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
         );
         if (!response.ok) throw new Error("Failed to fetch products");
         const data = await response.json();
