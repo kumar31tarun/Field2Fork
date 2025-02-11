@@ -5,14 +5,27 @@ import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from "recharts";
 import { DollarSign, ShoppingCart, Package } from "lucide-react";
 
 const SellerDashboardStats = () => {
-  // Hardcoded sellerId; in a real app, obtain it from your auth context.
-  const sellerId = 2;
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
+
   const [report, setReport] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Retrieve auth data from session storage
+    const authDataStr = sessionStorage.getItem("authData");
+    const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+    // If there's no token, log an error and don't make the request.
+    if (!token) {
+      console.error("No valid token found in session storage.");
+      return;
+    }
+
     axios
-      .get(`http://localhost:8080/sales-report/${sellerId}`)
+      .get(`http://localhost:8080/sales-report/${sellerId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((response) => {
         setReport(response.data);
         setLoading(false);

@@ -5,7 +5,8 @@ import SellerProductCard from "./SellerProductCard";
 
 const SellerProductTable = () => {
   const [products, setProducts] = useState([]);
-  const sellerId = 2; // Hardcoded for demonstration
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
 
   useEffect(() => {
     loadProducts();

@@ -32,18 +32,31 @@ public class SecurityConfiguration {
 
 				.authorizeHttpRequests(requests -> requests
 						.requestMatchers("/auth/login", "/auth/forgot-password", "/auth/reset-password/{token}",
-								"/users/**","/cart/**","/orders/**","/payments/**","/products/**","/product-images/**","/reviews/**",
-								"/sales-report/**","/v*/api-doc*/**", "/swagger-ui/**")
+								"/orders/**","/payments/**","/v*/api-doc*/**", "/swagger-ui/**",
+								"/users/buyers/register","/users/sellers/register",
+								"/products","/products/categories","/products/{product_id}","/products/category","/reviews",
+								"/product-images/product/{productId}","/product-images/images/{id}","/orders","/reviews/{review_id}",
+								"/cart/**")
 						.permitAll().requestMatchers(HttpMethod.OPTIONS).permitAll() // CORS support
 
 						// Admin Endpoints (Accessible only to Admins)
-						.requestMatchers("/users/buyers/after/{lastId}","/buyers/before/{firstId}").hasAuthority("ROLE_ADMIN")
+						.requestMatchers("/users/buyers/after/{lastId}","/users/buyers/before/{firstId}","/users/",
+								"/users/sellers/after/{lastId}","/users/sellers/before/{firstId}","/users/sellers/{seller_id}",
+								"/users/buyers/{buyer_id}","/users/{user_id}","/users/{user_id}/restore",
+								"/users/dashboard-stats").hasAuthority("ROLE_ADMIN")
 
 						// Seller Endpoints (Accessible only to Seller)
-						.requestMatchers("/resident/**").hasAuthority("ROLE_SELLER")
+						.requestMatchers("/users/sellers/{sellerId}","/products/add","/products/{product_id}",
+								"/products/seller/{sellerId}","/product-images/upload","/product-images/{id}",
+								"/sales-report/{sellerId}").hasAuthority("ROLE_SELLER")
 
 						// Buyer Endpoints (Accessible only to Buyer)
-						.requestMatchers("/staff/**").hasAnyAuthority("ROLE_BUYER")
+						.requestMatchers("/users/buyers/{buyerId}","/users/sellers/{sellerId}/rate","/reviews/{product_id}",
+								"/orders/user/{userId}","/orders/Items","/orders/{orderId}/items","/orders/{orderId}").hasAuthority("ROLE_BUYER")
+						
+						.requestMatchers("/products/{product_id}/restore").hasAnyAuthority("ROlE_ADMIN","ROLE_SELLER")
+						
+						.requestMatchers("/orders/{orderId}/status").hasAnyAuthority("ROLE_SELLER","ROLE_BUYER")
 
 						.requestMatchers("/auth/getall/{id}", "/auth/updateone/{id}").hasAnyAuthority("ROLE_SELLER","ROLE_ADMIN","ROLE_BUYER")
 

@@ -8,8 +8,18 @@ const AdminDashboardStats = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const authDataStr = sessionStorage.getItem("authData");
+    const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+    // If there's no token, log an error and don't make the request.
+    if (!token) {
+      console.error("No valid token found in session storage.");
+      return;
+    }
     axios
-      .get("http://localhost:8080/users/dashboard-stats") // Change API URL as needed
+      .get("http://localhost:8080/users/dashboard-stats", {
+        headers: { Authorization: `Bearer ${token}` },
+      }) // Change API URL as needed
       .then((response) => {
         setStats(response.data);
         setLoading(false);

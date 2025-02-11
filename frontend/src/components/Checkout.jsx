@@ -216,7 +216,8 @@ const Checkout = () => {
                 transition={{ type: "spring", stiffness: 100 }}
                 className="bg-white p-8 rounded-xl shadow-lg w-96 flex flex-col items-center"
               >
-                {paymentStatus == "SUCCESS" ? (
+
+                {paymentStatus === "SUCCESS" ? (
                   <>
                     <CheckCircle className="text-green-500 w-20 h-20 animate-bounce" />
                     <h2 className="text-2xl font-semibold mt-4 text-gray-800">

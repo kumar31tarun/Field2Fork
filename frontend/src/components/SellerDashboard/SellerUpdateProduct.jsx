@@ -9,7 +9,9 @@ import {
 const SellerUpdateProduct = () => {
   const { productId } = useParams();
   const navigate = useNavigate();
-  const sellerId = 2; // Hardcoded; replace with auth context in production.
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
+
   const [formData, setFormData] = useState({
     name: "",
     description: "",

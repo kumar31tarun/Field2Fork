@@ -23,8 +23,10 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(0);
   const navigate = useNavigate();
+
   const authData = sessionStorage.getItem("authData");
   const userId = authData ? JSON.parse(authData).user?.id : null;
+
 
   useEffect(() => {
     const checkAuth = () => {

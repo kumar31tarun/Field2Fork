@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { addNewProduct, fetchCategories } from "../../api/productService";
 
 const SellerAddProduct = () => {
-  const sellerId = 2; // Replace with auth context as needed.
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",

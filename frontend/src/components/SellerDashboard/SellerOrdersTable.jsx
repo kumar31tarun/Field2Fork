@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { fetchOrdersBySeller } from "../../api/orderService";
 
 const SellerOrdersTable = () => {
-  const sellerId = 2;
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
+
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
