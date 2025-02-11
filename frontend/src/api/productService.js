@@ -1,8 +1,18 @@
 const API_BASE_URL = "http://localhost:8080/products";
 
 export const fetchProducts = async () => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(API_BASE_URL);
+    const response = await fetch(API_BASE_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch products");
     return await response.json();
   } catch (error) {
@@ -12,8 +22,18 @@ export const fetchProducts = async () => {
 };
 
 export const getProductById = async (productId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/${productId}`);
+    const response = await fetch(`${API_BASE_URL}/${productId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Product not found");
 
     // Read and parse the JSON data once.
@@ -28,9 +48,18 @@ export const getProductById = async (productId) => {
 };
 
 export const deleteProduct = async (productId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${productId}`, {
       method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to delete product");
     return await response.json();
@@ -40,9 +69,18 @@ export const deleteProduct = async (productId) => {
 };
 
 export const restoreProduct = async (productId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${productId}/restore`, {
       method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to restore product");
     return await response.json();
@@ -52,8 +90,18 @@ export const restoreProduct = async (productId) => {
 };
 
 export const fetchProductsBySeller = async (sellerId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/seller/${sellerId}`);
+    const response = await fetch(`${API_BASE_URL}/seller/${sellerId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch products for seller");
     return await response.json();
   } catch (error) {
@@ -63,10 +111,21 @@ export const fetchProductsBySeller = async (sellerId) => {
 };
 
 export const addNewProduct = async (productData) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(API_BASE_URL, {
+    const response = await fetch(`${API_BASE_URL}/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(productData),
     });
     if (!response.ok) throw new Error("Failed to add product");
@@ -77,10 +136,21 @@ export const addNewProduct = async (productData) => {
   }
 };
 export const updateProductDetails = async (productData, productId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${productId}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(productData),
     });
     if (!response.ok) throw new Error("Failed to update product");
@@ -92,8 +162,18 @@ export const updateProductDetails = async (productData, productId) => {
 };
 
 export const fetchCategories = async () => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/categories`);
+    const response = await fetch(`${API_BASE_URL}/categories`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch categories");
     return await response.json();
   } catch (error) {

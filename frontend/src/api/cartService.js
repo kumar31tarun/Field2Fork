@@ -1,8 +1,18 @@
 const API_BASE_URL = "http://localhost:8080/cart"; // Replace with actual backend URL
 
 export const getCartDetailsById = async (id) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/${id}`);
+    const response = await fetch(`${API_BASE_URL}/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     console.log(response);
     if (!response.ok)
       throw new Error(
@@ -17,8 +27,18 @@ export const getCartDetailsById = async (id) => {
 };
 
 export const fetchCartTotalQuantity = async (userId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/${userId}`);
+    const response = await fetch(`${API_BASE_URL}/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     console.log(response);
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
@@ -45,9 +65,18 @@ export const getTotalQuantity = (cartItems) => {
 };
 
 export const deleteCartItem = async (cartId, itemId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${cartId}/items/${itemId}`, {
       method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to delete cart item");
     return true;
@@ -58,9 +87,18 @@ export const deleteCartItem = async (cartId, itemId) => {
 };
 
 export const checkoutCart = async (cartId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/checkout/${cartId}`, {
       method: "POST",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to Proceed for Checkout");
     // Parse the response body
@@ -89,10 +127,21 @@ export const checkoutCart = async (cartId) => {
   }
 };
 export const addToCart = async (cartRequest) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/add`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
       body: JSON.stringify(cartRequest),
     });
 

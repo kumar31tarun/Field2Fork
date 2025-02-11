@@ -3,7 +3,9 @@ import React, { useEffect, useState } from "react";
 import { fetchSalesReport } from "../../api/salesReportService";
 
 const SellerSalesReport = () => {
-  const sellerId = 2;
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const sellerId = authData.user.id;
+
   const [report, setReport] = useState(null);
 
   useEffect(() => {

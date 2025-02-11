@@ -1,9 +1,20 @@
 const API_BASE_URL = "http://localhost:8080/payments";
 
 export const processPayment = async (paymentData) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   const response = await fetch(`${API_BASE_URL}/process`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(paymentData),
   });
   const responseBody = await response.json();

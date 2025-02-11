@@ -57,7 +57,7 @@ public class ProductController {
 	 * URL - http://host:port/products
 	 * Method - POST
 	 */
-	@PostMapping
+	@PostMapping("/add")
 	public ResponseEntity<?> addNewProduct(@RequestBody ProductRequestDTO dto) {
 		System.out.println("in add new product " + dto);
 		try {

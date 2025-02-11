@@ -1,8 +1,18 @@
 const API_BASE_URL = "http://localhost:8080/users"; // Change this if needed
 
 export const getBuyers = async () => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/buyers/after/0`);
+    const response = await fetch(`${API_BASE_URL}/buyers/after/0`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch buyers");
     return await response.json();
   } catch (error) {
@@ -12,9 +22,20 @@ export const getBuyers = async () => {
 };
 
 export const fetchMoreBuyers = async (lastFetchedId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(
-      `${API_BASE_URL}/buyers/after/${lastFetchedId}`
+      `${API_BASE_URL}/buyers/after/${lastFetchedId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch more buyers");
     return await response.json();
@@ -25,9 +46,20 @@ export const fetchMoreBuyers = async (lastFetchedId) => {
 };
 
 export const fetchPrevBuyers = async (firstBuyerId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(
-      `${API_BASE_URL}/buyers/before/${firstBuyerId}`
+      `${API_BASE_URL}/buyers/before/${firstBuyerId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch previous buyers");
     return await response.json();
@@ -38,8 +70,18 @@ export const fetchPrevBuyers = async (firstBuyerId) => {
 };
 
 export const getBuyerById = async (id) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/buyers/${id}`);
+    const response = await fetch(`${API_BASE_URL}/buyers/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch buyer");
     return await response.json();
   } catch (error) {
@@ -49,8 +91,18 @@ export const getBuyerById = async (id) => {
 };
 
 export const getSellers = async () => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/sellers/after/0`);
+    const response = await fetch(`${API_BASE_URL}/sellers/after/0`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch sellers");
     return await response.json();
   } catch (error) {
@@ -60,9 +112,20 @@ export const getSellers = async () => {
 };
 
 export const fetchMoreSellers = async (lastFetchedId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(
-      `${API_BASE_URL}/sellers/after/${lastFetchedId}`
+      `${API_BASE_URL}/sellers/after/${lastFetchedId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch more sellers");
     return await response.json();
@@ -73,9 +136,20 @@ export const fetchMoreSellers = async (lastFetchedId) => {
 };
 
 export const fetchPrevSellers = async (firstSellerId) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(
-      `${API_BASE_URL}/sellers/before/${firstSellerId}`
+      `${API_BASE_URL}/sellers/before/${firstSellerId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
     );
     if (!response.ok) throw new Error("Failed to fetch previous sellers");
     return await response.json();
@@ -86,8 +160,18 @@ export const fetchPrevSellers = async (firstSellerId) => {
 };
 
 export const getSellerById = async (id) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
-    const response = await fetch(`${API_BASE_URL}/sellers/${id}`);
+    const response = await fetch(`${API_BASE_URL}/sellers/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
     if (!response.ok) throw new Error("Failed to fetch seller");
     return await response.json();
   } catch (error) {
@@ -97,9 +181,18 @@ export const getSellerById = async (id) => {
 };
 
 export const deleteUser = async (id) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${id}`, {
       method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to delete user");
     return await response.json(); // Return the response if needed
@@ -110,9 +203,18 @@ export const deleteUser = async (id) => {
 };
 
 export const restoreUser = async (id) => {
+  const authDataStr = sessionStorage.getItem("authData");
+  const token = authDataStr ? JSON.parse(authDataStr).token : "";
+
+  // If there's no token, log an error and don't make the request.
+  if (!token) {
+    console.error("No valid token found in session storage.");
+    return;
+  }
   try {
     const response = await fetch(`${API_BASE_URL}/${id}/restore`, {
       method: "PATCH",
+      headers: { Authorization: `Bearer ${token}` },
     });
     if (!response.ok) throw new Error("Failed to restore user");
     return await response.json(); // Return the response if needed
