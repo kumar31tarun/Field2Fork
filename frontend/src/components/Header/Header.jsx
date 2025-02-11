@@ -23,6 +23,8 @@ const Header = () => {
   const [categories, setCategories] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(0);
   const navigate = useNavigate();
+  const authData = JSON.parse(sessionStorage.getItem("authData"));
+  const userId = authData.user.id;
 
   // Check for token in sessionStorage on mount
   useEffect(() => {
@@ -56,7 +58,7 @@ const Header = () => {
   const authLinks = [
     { icon: Bell, label: "Notifications", path: "#" },
     { icon: ShoppingBag, label: "Orders", path: "/orders" },
-    { icon: ShoppingCart, label: "Cart", path: "/cart" },
+    { icon: ShoppingCart, label: "Cart", path: `/cart/${userId}` },
   ];
 
   return (

@@ -35,14 +35,15 @@ public class SecurityConfiguration {
 								"/orders/**","/payments/**","/v*/api-doc*/**", "/swagger-ui/**",
 								"/users/buyers/register","/users/sellers/register",
 								"/products","/products/categories","/products/{product_id}","/products/category","/reviews",
-								"/product-images/product/{productId}","/product-images/images/{id}","/orders")
+								"/product-images/product/{productId}","/product-images/images/{id}","/orders","/reviews/{review_id}",
+								"/cart/**")
 						.permitAll().requestMatchers(HttpMethod.OPTIONS).permitAll() // CORS support
 
 						// Admin Endpoints (Accessible only to Admins)
 						.requestMatchers("/users/buyers/after/{lastId}","/users/buyers/before/{firstId}","/users/",
 								"/users/sellers/after/{lastId}","/users/sellers/before/{firstId}","/users/sellers/{seller_id}",
 								"/users/buyers/{buyer_id}","/users/{user_id}","/users/{user_id}/restore",
-								"/users/dashboard-stats","/reviews/{review_id}").hasAuthority("ROLE_ADMIN")
+								"/users/dashboard-stats").hasAuthority("ROLE_ADMIN")
 
 						// Seller Endpoints (Accessible only to Seller)
 						.requestMatchers("/users/sellers/{sellerId}","/products/add","/products/{product_id}",
@@ -57,7 +58,7 @@ public class SecurityConfiguration {
 						
 						.requestMatchers("/orders/{orderId}/status").hasAnyAuthority("ROLE_SELLER","ROLE_BUYER")
 
-						.requestMatchers("/auth/getall/{id}", "/auth/updateone/{id}","/cart/**").hasAnyAuthority("ROLE_SELLER","ROLE_ADMIN","ROLE_BUYER")
+						.requestMatchers("/auth/getall/{id}", "/auth/updateone/{id}").hasAnyAuthority("ROLE_SELLER","ROLE_ADMIN","ROLE_BUYER")
 
 						.anyRequest().authenticated())
 				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));

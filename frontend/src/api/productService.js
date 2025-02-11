@@ -22,18 +22,8 @@ export const fetchProducts = async () => {
 };
 
 export const getProductById = async (productId) => {
-  const authDataStr = sessionStorage.getItem("authData");
-  const token = authDataStr ? JSON.parse(authDataStr).token : "";
-
-  // If there's no token, log an error and don't make the request.
-  if (!token) {
-    console.error("No valid token found in session storage.");
-    return;
-  }
   try {
-    const response = await fetch(`${API_BASE_URL}/${productId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(`${API_BASE_URL}/${productId}`);
     if (!response.ok) throw new Error("Product not found");
 
     // Read and parse the JSON data once.
