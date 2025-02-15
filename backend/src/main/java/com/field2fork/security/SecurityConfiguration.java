@@ -36,7 +36,7 @@ public class SecurityConfiguration {
 								"/users/buyers/register","/users/sellers/register",
 								"/products","/products/categories","/products/{product_id}","/products/category","/reviews",
 								"/product-images/product/{productId}","/product-images/images/{id}","/orders","/reviews/{review_id}",
-								"/cart/**")
+								"/cart/**,","/product-images/{id}","/products/{product_id}")
 						.permitAll().requestMatchers(HttpMethod.OPTIONS).permitAll() // CORS support
 
 						// Admin Endpoints (Accessible only to Admins)
@@ -46,8 +46,8 @@ public class SecurityConfiguration {
 								"/users/dashboard-stats").hasAuthority("ROLE_ADMIN")
 
 						// Seller Endpoints (Accessible only to Seller)
-						.requestMatchers("/users/sellers/{sellerId}","/products/add","/products/{product_id}",
-								"/products/seller/{sellerId}","/product-images/upload","/product-images/{id}",
+						.requestMatchers("/users/sellers/{sellerId}","/products/add",
+								"/products/seller/{sellerId}","/product-images/upload",
 								"/sales-report/{sellerId}").hasAuthority("ROLE_SELLER")
 
 						// Buyer Endpoints (Accessible only to Buyer)

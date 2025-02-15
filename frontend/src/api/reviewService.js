@@ -44,18 +44,9 @@ export const deleteReviewById = async (id) => {
 };
 
 export const fetchReviewByProductId = async (productId) => {
-  const authDataStr = sessionStorage.getItem("authData");
-  const token = authDataStr ? JSON.parse(authDataStr).token : "";
-
-  // If there's no token, log an error and don't make the request.
-  if (!token) {
-    console.error("No valid token found in session storage.");
-    return;
-  }
+  
   try {
-    const response = await fetch(`${API_BASE_URL}/${productId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(`${API_BASE_URL}/${productId}`);
     if (!response.ok)
       throw new Error("Failed to fetch reviews for the product");
     return await response.json();

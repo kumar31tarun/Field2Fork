@@ -56,14 +56,6 @@ const ShopByCategory = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const authDataStr = sessionStorage.getItem("authData");
-      const token = authDataStr ? JSON.parse(authDataStr).token : "";
-
-      // If there's no token, log an error and don't make the request.
-      if (!token) {
-        console.error("No valid token found in session storage.");
-        return;
-      }
       try {
         const data = await fetchProductsByCategories(categoryName);
         // Fetch images for each product

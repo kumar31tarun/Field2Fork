@@ -1,18 +1,8 @@
 const API_BASE_URL = "http://localhost:8080/products";
 
 export const fetchProducts = async () => {
-  const authDataStr = sessionStorage.getItem("authData");
-  const token = authDataStr ? JSON.parse(authDataStr).token : "";
-
-  // If there's no token, log an error and don't make the request.
-  if (!token) {
-    console.error("No valid token found in session storage.");
-    return;
-  }
   try {
-    const response = await fetch(API_BASE_URL, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(API_BASE_URL);
     if (!response.ok) throw new Error("Failed to fetch products");
     return await response.json();
   } catch (error) {

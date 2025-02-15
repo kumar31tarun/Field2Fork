@@ -2,20 +2,9 @@
 const PRODUCT_IMAGE_API_BASE_URL = "http://localhost:8080/product-images";
 
 export const fetchProductImages = async (productId) => {
-  const authDataStr = sessionStorage.getItem("authData");
-  const token = authDataStr ? JSON.parse(authDataStr).token : "";
-
-  // If there's no token, log an error and don't make the request.
-  if (!token) {
-    console.error("No valid token found in session storage.");
-    return;
-  }
   try {
     const response = await fetch(
-      `${PRODUCT_IMAGE_API_BASE_URL}/product/${productId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
+      `${PRODUCT_IMAGE_API_BASE_URL}/product/${productId}`
     );
     if (!response.ok) throw new Error("Failed to fetch product images");
     return await response.json();
