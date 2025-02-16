@@ -10,7 +10,6 @@
  */
 export async function login(email, password) {
   try {
-    // Send the POST request with the correct body: email and password
     const response = await fetch("http://localhost:8080/auth/login", {
       method: "POST",
       headers: {
@@ -19,20 +18,25 @@ export async function login(email, password) {
       body: JSON.stringify({ email, password }),
     });
 
-    // If the response status is not OK, try to get a detailed error message
     if (!response.ok) {
+      // Clone the response so we can read its body for error details
+      const responseClone = response.clone();
       let errorMessage = `Error: ${response.status}`;
       try {
-        const errorData = await response.json();
+        const errorData = await responseClone.json();
         errorMessage = errorData.message || errorMessage;
       } catch (jsonError) {
-        const errorText = await response.text();
-        errorMessage = errorText || errorMessage;
+        try {
+          const errorText = await responseClone.text();
+          errorMessage = errorText || errorMessage;
+        } catch (textError) {
+          // fallback remains errorMessage
+        }
       }
       throw new Error(errorMessage);
     }
 
-    // Parse the JSON response
+    // Parse the JSON response (this reads the original response)
     const data = await response.json();
 
     // Store the returned data in sessionStorage
